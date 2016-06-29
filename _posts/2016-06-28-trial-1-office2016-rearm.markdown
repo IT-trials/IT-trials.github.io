@@ -4,4 +4,48 @@ title: "Trial #1: Office 2013 Rearm"
 categories: MDT
 ---
 
-Rearm Office 2013 
+##Error:
+Microsoft Office 2013 (or Higher) is failing to activate via KMS on machines built from MDT with Office pre-installed on the wim image.
+
+##Applies to:
+MDT 2013 Update 1 or Less/Microsoft Office 2013 or Greater
+
+##Cause:
+Office is given a unique ID (CMID) during installation.  This is being copied onto all child machines captured from this image.
+
+Office has a very convenient utility "OSPPREARM.EXE" designed to remove this CMID.
+
+MDT 2013 Update 1 has an Office 2010 "Rearm" built into the LTISysprep.wsf script.  However this script does not support Microsoft Office 2013 or greater and these versions of Office will not be "Rearmed prior to capture".  This [article from Scott Ladewig](http://www.ladewig.com/archives/2014/01/30/43892-adding_office_2013_rearm_to_ltisysprepwsf_in_mdt.html) covers this well.
+
+##Solution:
+1. Update to MDT 2013 Update 2 or higher as Microsoft have improved Office Rearm support.
+2. Add a script or command of your own to your capture sequence.
+
+I would recommend solution one and Update MDT.  This will give you support for Office 2013 & 2016 on both 32 & 64bit operating systems.
+(https://www.microsoft.com/en-us/download/details.aspx?id=50407)
+
+If you make your own simplified command task or even call the same code manually, you'll have more maintenance overhead and in some cases less supported platforms and applications.
+
+For example the following added as a sequence command will work only for Office 2013 on Windows x64.:
+
+    cmd /c "%ProgramFiles(x86)%\Microsoft Office\Office15\OSPPREARM.EXE"
+
+You'll also have to put in the right place of all of the relevant capture sequences.
+
+If you can not upgrade and develop a work around here are some Handy Commands from Microsoft Office taken from [Microsoft Technet](https://technet.microsoft.com/en-gb/library/1825df76-7e23-459b-a6c1-224dd6eab81e#section1):
+
+    cscript ospp.vbs /dcmid
+    #N.B. Will identify if Office has received a CMID from the KMS server.  You can check for duplicate across child and parent machines.
+
+    cscript ospp.vbs /act
+    #N.B. Will cause Office to activate received a CMID from the KMS server.
+
+
+##Other Pitfalls:
+  * When you're testing if you've solved the problem don't assume that the rearm has failed straight away if Office has not activated 2 seconds after the build has finished.  Restart the machine and put in the right OU.  It might be fine after-all.  You can use the "cscript ospp.vbs /dcmid", to investigate what state the activation is in.
+
+  * I believe "%ProgramFiles(x86)%\Microsoft Office\Office15\OSPPREARM.EXE" not to work as a sequence command.  I guessed that this needed passing to the command line with "cmd /c" as the "%ProgramFiles(x86)%" needed computing. "C:\Program Files (x86)\Microsoft Office\Office15\OSPPREARM.EXE" should work fine however without "cmd /c".  This is untested I'm afraid.  But it my be worth consideration if you're troubleshooting.
+
+  * Make sure you put any custom command in the right place.  It probably won't be any good in the "Sysprep Only" directory of a capture sequence.
+
+![]({{ site.url }}/assets/images/capture_sequence.jpg)
