@@ -1,5 +1,8 @@
 ---
-title: SolidWorks 2016 Silent Install
+title: Trial #4: SolidWorks 2016 Silent Install
+layout: post
+categories: MDT
+
 ---
 
 ## Problem:
@@ -11,6 +14,11 @@ Forget pdq/sscm/mdt task sequence deployment or make it work yourself.
 ## Solution:
 Read the docs and write a script:
 
+[prerequisites](http://help.solidworks.com/2016/english/Installation/install_guide/c_prep_clients_admin_images.htm?id=7af121fe82ee461f874a77a5612dd53f#Pg0&ProductType=&ProductName=)
+
+[installer](http://help.solidworks.com/2016/english/Installation/install_guide/c_installing_from_admin_image_command_line.htm?id=2f540a0df27f4c5fbb4adde8a7c9feee#Pg0&ProductType=&ProductName=)
+
+## My Script... so far:
     REM Office Web Components 
     .\64bit\OfficeWeb_11\owc11.exe/quiet
 
@@ -50,8 +58,9 @@ Read the docs and write a script:
     REM Bonjour
     .\64bit\Bonjour\Bonjour64.msi /qb
 
-    .\64bit\SOLIDWORKS\SOLIDWORKS.Msi ENABLEPERFORMANCE="1" OFFICEOPTION="3" ADDLOCAL="SolidWorks" SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x" /qb /log C:\solidworks.log
+    .\64bit\SOLIDWORKS\SOLIDWORKS.Msi ENABLEPERFORMANCE="1" OFFICEOPTION="3" ADDLOCAL="SolidWorks" SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x" /qb 
 
+## What I've found:
 I think these items are required for network install:
 
-   SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x"
+    SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x"
