@@ -4,12 +4,12 @@ title: "Trial #3: KeyShot"
 categories: GPO
 ---
 
-##Problem:
+## Problem:
 KeyShot is installed as part of ArtCam 2015 R2 at our school.  I found that users were being prompted for a license/product activation even though the product should be automatically licensed in the ArtCam Installation.
 
 ![]({{ site.url }}/assets/images/keyshot.png)
 
-##Solution
+## Solution
 Point KeyShot at the .lic file at using Group Policy
 
 ![]({{ site.url }}/assets/images/reg.jpg)
@@ -22,6 +22,7 @@ KeyShot will look here and not prompt user for input if a reg key points to the 
 
     C:\Program Files\ArtCAM 2015 R2\Keyshot\
 
-##Other Pitfalls
+## Other Pitfalls
+
   * KeyShot needs to be installed for "all users".  Otherwise it will try to read/write files to the installing users home directory, e.g. "C:\Users\Administrator\Documents\Keyshot 5" :(
   * I originally thought this error was caused by the Deployment method - via MDT Reference Machine Capture - this assumption proved to be wrong.
