@@ -4,7 +4,7 @@ title: "Trial #2: ArtCAM 2015 R2 - JewelSmith Deployment"
 categories: MDT
 ---
 
-##Problem:
+## Problem:
 ArtCAM 2015 R2 - JewelSmith is used by DT at our school.  It has no silent install option, a very long installation process and lots of manual user interaction.  The first installer leaves you with an application with a massive bug and a second installer with updates has to be run after the first and then a companion program, KeyShot has to be updated, this all takes over an hour per machine so long as you keep hitting next when it prompts for user interaction, otherwise it hangs indefinitely.
 
 The products publisher, [Delcam](http://www.delcam.co.uk), don't officially support installing this software onto a virtual machine for creating a reference image.  They do report that creating a hardware specific reference image is just fine.
@@ -13,6 +13,6 @@ We have a variety of hardware and I don't want a huge list of operating systems 
 
 So far so good.  ArtCAM opens fine and activates against our RMS server.  I'll report back after it's had some road testing.
 
-##Future prospects:
+## Future prospects:
 Delcam have been [acquired by Autodesk](http://www.delcam.com/autodesk/) and I have been told ArtCAM 2016 is having to "introduce the Autodesk licensing structure into the software" so we might see a new licensing module and server.
 Maybe they will make a silent installer too? :)
