@@ -1,5 +1,5 @@
 ---
-title: Trial #4: SolidWorks 2016 Silent Install
+title: "Trial #4: SolidWorks 2016 Silent Install"
 layout: post
 categories: MDT
 
