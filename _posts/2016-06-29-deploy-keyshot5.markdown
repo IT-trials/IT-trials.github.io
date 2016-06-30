@@ -1,18 +1,19 @@
 ---
 layout: post
-title: "Trial #3: KeyShot"
+title: "KeyShot"
+number: 3
 categories: GPO
 ---
 
 ## Problem:
 KeyShot is installed as part of ArtCam 2015 R2 at our school.  I found that users were being prompted for a license/product activation even though the product should be automatically licensed in the ArtCam Installation.
 
-![]({{ site.url }}/assets/images/keyshot.png)
+![]({{ site.github.url }}/assets/images/3/keyshot.png)
 
 ## Solution:
 Point KeyShot at the .lic file at using Group Policy
 
-![]({{ site.url }}/assets/images/reg.jpg)
+![]({{ site.github.url }}/assets/images/3/reg.jpg)
 
 ArtCam 2015 R2 stores a licence file at the following location:
 

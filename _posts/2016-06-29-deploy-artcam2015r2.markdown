@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "Trial #2: ArtCAM 2015 R2 - JewelSmith Deployment"
+title: "ArtCAM 2015 R2 - JewelSmith Deployment"
+number: 2
 categories: MDT
 ---
 

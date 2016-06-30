@@ -1,6 +1,7 @@
 ---
 layout: post
-title: "Trial #1: Office 2013 Rearm"
+title: "Office 2013 Rearm"
+number: 1
 categories: MDT
 ---
 
@@ -48,4 +49,4 @@ If you can not upgrade and develop a work around here are some Handy Commands fr
 
   * Make sure you put any custom command in the right place.  It probably won't be any good in the "Sysprep Only" directory of a capture sequence.
 
-![]({{ site.url }}/assets/images/capture_sequence.jpg)
+![]({{ site.github.url }}/assets/images/1/capture_sequence.jpg)
