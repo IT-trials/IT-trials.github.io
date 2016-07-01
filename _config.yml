@@ -1,8 +1,8 @@
 # Site settings
-title: IT Trials 
+title: IT Trials
 email: your-email@domain.com
 description: > # this means to ignore newlines until "baseurl:"
-  Journal Blog for the trials and errors of a Sysadmin. 
+  Journal Blog for the trials and errors of a Sysadmin.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://it-trials.github.io" # the base hostname & protocol for your site
 github_username:  it-trials
@@ -17,5 +17,5 @@ markdown: kramdown
 sass:
   style: compressed
 
-
-
+gems: 
+  - jekyll-gist

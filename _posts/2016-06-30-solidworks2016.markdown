@@ -20,46 +20,8 @@ Read the docs and write a script:
 [installer](http://help.solidworks.com/2016/english/Installation/install_guide/c_installing_from_admin_image_command_line.htm?id=2f540a0df27f4c5fbb4adde8a7c9feee#Pg0&ProductType=&ProductName=)
 
 ## My Script... so far:
-    REM Office Web Components
-    .\64bit\OfficeWeb_11\owc11.exe/quiet
 
-    REM Visual C++ 2005 Redistributables
-    .\64bit\Microsoft_C++_2005_Redistributable_(x64)\vcredist_x64.exe /Q
-    .\64bit\Microsoft_C++_2005_Redistributable\vcredist_x86.exe /Q
-
-    .\64bit\Microsoft_C++_2008_Redistributable_(x64)\vcredist_x64.exe /Q
-    .\64bit\Microsoft_C++_2008_Redistributable\vcredist_x86.exe /Q
-
-    .\64bit\Microsoft_C++_2010_Redistributable_(x64)\vcredist_x64.exe /Q
-    .\64bit\Microsoft_C++_2010_Redistributable\vcredist_x86.exe /Q
-
-    .\64bit\Microsoft_C++_2012_Redistributable_(x64)\vcredist_x64.exe /Q
-    .\64bit\Microsoft_C++_2012_Redistributable\vcredist_x86.exe /Q
-
-
-    REM .NET Framework 4.5 (already installed)
-    REM administrative_image_directory\.Net_Framework_4.5\dotnetfx45_full_x86_x64.exe
-
-    REM Visual Studio Tools for Applications:
-    .\64bit\Microsoft_VSTA\vsta_aide.msi /qb
-
-    REM .NET Framework 3.5
-    REM For Windows 7 or later, the .NET Framework 3 is a feature of the operating system.
-
-    REM Visual Studio Remote Debugger:
-    .\64bit\VSRemoteDebugger\install.exe /Q
-
-    REM Install Visual Basic 7.1:
-    .\64bit\Microsoft_VBA\vba71.msi /qb
-    .\64bit\Microsoft_VBA_1033\vba71_1033.msi /qb
-
-    REM - Posting as invalid
-    .\64bit\Microsoft_VBA_KB2783832\vba71-kb27832-x64.msp /qb
-
-    REM Bonjour
-    .\64bit\Bonjour\Bonjour64.msi /qb
-
-    .\64bit\SOLIDWORKS\SOLIDWORKS.Msi ENABLEPERFORMANCE="1" OFFICEOPTION="3" ADDLOCAL="SolidWorks" SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x" /qb
+{% gist f4412832af566b2923a8e099cc542c31 %}
 
 ## What I've found:
 I think these items are required for network install:
