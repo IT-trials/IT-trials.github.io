@@ -27,3 +27,5 @@ Read the docs and write a script:
 I think these items are required for network install:
 
     SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x"
+
+CMD.EXE doesn't like '(' in paths.  You have to put the paths including '(64bit)' inside quotes.  But then, unless you pass this string to something to run e.g. msiexec.exe, CMD will treat this as a string, not executing the .exe for example.  That's why I'm using the pushd/popd sandwiching around the .exe files.
