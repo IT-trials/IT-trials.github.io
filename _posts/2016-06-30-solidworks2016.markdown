@@ -21,7 +21,7 @@ Read the docs and write a script:
 
 ## My Script... so far:
 
-{% gist f4412832af566b2923a8e099cc542c31 %}
+{% gist 967cf4ca121d297225fc7f180e7ad802 %}
 
 ## What I've found:
 I think these items are required for network install:
