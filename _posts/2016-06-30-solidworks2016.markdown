@@ -20,12 +20,34 @@ Read the docs and write a script:
 [installer](http://help.solidworks.com/2016/english/Installation/install_guide/c_installing_from_admin_image_command_line.htm?id=2f540a0df27f4c5fbb4adde8a7c9feee#Pg0&ProductType=&ProductName=)
 
 ## My Script... so far:
+The following script was intended to be run from the root of an admin image made by the SolidWorks Installation manager and use the media it creates.  All of the paths are relative to this location in my environment.
 
 {% gist 967cf4ca121d297225fc7f180e7ad802 %}
 
 ## What I've found:
-I think these items are required for network install:
+  - I think these items are required for network install:
 
-    SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x"
 
-CMD.EXE doesn't like '(' in paths.  You have to put the paths including '(64bit)' inside quotes.  But then, unless you pass this string to something to run e.g. msiexec.exe, CMD will treat this as a string, not executing the .exe for example.  That's why I'm using the pushd/popd sandwiching around the .exe files.
+      SERVERLIST="PORT@SERVER" SOLIDWORKSSERIALNUMBER="x"
+
+
+  - CMD.EXE doesn't like '(' in paths.  Therefore, if you want to execute something including '(64bit)' in it's path, you must pass it to a processor such as msiexec.exe if the installer is an '.msi' or 'cd' to the path and execute an '.exe' directly
+  
+  The following is fine as it's '(' free:
+
+      .\64bit\Microsoft_C++_2008_Redistributable\vcredist_x86.exe /Q
+  
+  This will fail and the path will be incorrectly interpretted
+  
+      .\64bit\Microsoft_C++_2008_Redistributable_(x64)\vcredist_x64.exe /q 
+
+  This will be treaded as a string and the exe not executed.  The '(' will be correctly interpretted
+
+      ".\64bit\Microsoft_C++_2008_Redistributable_(x64)\vcredist_x64.exe"
+
+  I chose to bookend problem '.exe' with a pushd/popd pair
+  
+      pushd ".\64bit\Microsoft_C++_2008_Redistributable_(x64)"
+      .\vcredist_x64.exe /q
+      popd
+ 
