@@ -1,6 +1,7 @@
 ---
 title: Packaging Sibelius 7.1 Installer
 trial: 5
+layout: post
 ---
 
 ## Problem
@@ -15,7 +16,7 @@ Powershell is ace at copying files (that don't have too long filenames) and it c
 
 ## My script
 
-{ gist  7261e57d4a1790802291d1cd120bc26e }
+{% gist  7261e57d4a1790802291d1cd120bc26e %}
 
 ## Pitfalls
 
