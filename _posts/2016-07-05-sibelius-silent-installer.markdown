@@ -20,4 +20,5 @@ Powershell is ace at copying files (that don't have too long filenames) and it c
 
 ## Pitfalls
 
-  - Pre-requisite c++ causes a user interaction and a restart
+  - Sibelius installer pre-requisite "c++ 2008 redistributable x86" causes a user interaction and a restart so should be installed silently first
+  - The Sibelius Sounds Update seems to be badly packaged and unresponsive to switch commands
