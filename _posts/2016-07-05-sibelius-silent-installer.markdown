@@ -1,6 +1,6 @@
 ---
 title: Packaging Sibelius 7.1 Installer
-trial: 5
+number: 5
 layout: post
 categories: MDT
 ---
