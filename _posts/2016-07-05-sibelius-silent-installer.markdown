@@ -2,7 +2,7 @@
 title: Packaging Sibelius 7.1 Installer
 trial: 5
 layout: post
-categories: -mdt
+categories: MDT
 ---
 
 ## Problem
