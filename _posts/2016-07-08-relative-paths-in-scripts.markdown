@@ -35,4 +35,4 @@ This can be used in a script as follows.
 
 ## Pitfalls
 
-  - This works fine from MDT and if you navigate to the file and execute by double clicking.  However, when I tried to use from PDQ deploy, I found that PDQ copies the .bat down to the target machine and "%~dp0" echos out a useless file path.  This could be fixed by clicking "copy all files but I'm trying to map a drive to avoid copying several gigabytes of installation media.
+  - This works fine from MDT and if you navigate to the file and execute by double clicking.  However, when I tried to use from PDQ deploy, I found that PDQ copies the .bat down to the target machine and "%~dp0" echos out a useless file path.  This could be fixed by clicking "copy all files" but I'm trying to map a drive to avoid copying several gigabytes of installation media.
