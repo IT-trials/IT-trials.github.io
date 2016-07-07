@@ -1,6 +1,6 @@
 ---
 title: Relative Paths in Scripts
-trial: 6
+number: 6
 layout: post
 categories: scripting
 ---
