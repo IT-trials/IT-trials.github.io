@@ -6,11 +6,11 @@ categories: scripting
 ---
 
 ## Problem:
-I want to put a batch file in with a load of instalation media on a server share, access it from a UNC path, and have it install a list of probrams with given params.
+I want to put a batch file in with a load of installation media on a server share, access it from a UNC path, and have it install a list of programs with given switches and parameters.
 
 ## Solution:
 
-Use Powershell, it can execute over UNC
+Use Powershell, it can natively execute over UNC and has support for relative paths.
 
 If you must use a .bat file you can map a UNC path as a drive for the period of the script using pushd/popd.
 

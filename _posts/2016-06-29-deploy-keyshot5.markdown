@@ -19,7 +19,7 @@ ArtCam 2015 R2 stores a licence file at the following location:
 
     C:\Program Files\ArtCAM 2015 R2\Keyshot\keyshot4.lic
 
-KeyShot will look here and not prompt user for input if a reg key points to the containing directory
+KeyShot will look here and not prompt user for input if a registry key points to the containing directory
 
     C:\Program Files\ArtCAM 2015 R2\Keyshot\
 
