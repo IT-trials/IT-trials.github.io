@@ -2,7 +2,7 @@
 title: Relative Paths in Scripts
 number: 6
 layout: post
-categories: scripting
+categories: Scripting
 ---
 
 ## Problem:
