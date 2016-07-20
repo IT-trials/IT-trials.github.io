@@ -1,0 +1,48 @@
+body {
+  @include outer-container;
+  background-color: $dark-gray;
+  padding: 2em 0;
+}
+
+.site-header {
+  @include span-columns(4);
+
+  padding: 5em 0;
+  text-align: center;
+
+
+  a {
+    &,
+    &:active,
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+
+  .site-title {
+    font-size: 3em;
+  }
+
+
+}
+
+.page-content {
+  @include span-columns(8);
+  @include omega();
+  @include clearfix;
+  background-color: $light-gray;
+  padding: 1em 1.5em;
+
+  .post-title,
+  .page-heading {
+    font-size: 2em;
+    text-decoration: underline;
+  }
+}
+
+.site-footer {
+  @include span-columns(12);
+  color: #fff;
+  padding: 1em 0;
+}
