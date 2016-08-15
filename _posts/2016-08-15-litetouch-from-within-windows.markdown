@@ -20,7 +20,7 @@ It is perfectly possible to launch a build sequence from here too.  However, you
 
 For example, I force NEW COMPUTER as deployment type but when the build is triggered from while logged into windows, the build defaults too and necessarily must run as REFRESH.
 
-For me this caused no particularly important problems as I delete machines in AD prior to rebuilding them - no group memberships or OU location where cloned.  And I was able to set this up from scratch and avoid having unwanted GPOs dirty up my nice new computer.  However, the build time increased drastically as MDT performed a backup prior to rebuild.
+For me this caused no particularly important problems as I delete machines in AD prior to rebuilding them - no groups or the machine's OU were cloned.  Post build I was able to set this up from scratch and avoid having unwanted GPOs dirty up my nice new computer.  However, the build time increased drastically as MDT performed a backup of user data prior to rebuild.
 
 I think this backup could probably be blocked with a task sequence modification or possibly a further rule in CustomSettings.ini but I am unsure atm.  Will try disabling the entire state restore section in my task sequences as a first port of call.
 
