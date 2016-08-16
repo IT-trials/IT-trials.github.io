@@ -26,10 +26,17 @@ For example, I force NEW COMPUTER as deployment type but when the build is trigg
 
 For me this caused no particularly important problems as I delete machines in AD prior to rebuilding them - no groups or the machine's OU were cloned.  Post build I was able to set this up from scratch and avoid having unwanted GPOs dirty up my nice new computer.  However, the build time increased drastically as MDT performed a backup of user data prior to rebuild.
 
-I think this backup could probably be blocked with a task sequence modification or possibly a further rule in CustomSettings.ini but I am unsure atm.  Will try disabling the entire state restore section in my task sequences as a first port of call.
+This backup can be blocked within a task sequence and also possibly through a further rule in CustomSettings.ini but I am unsure atm.  
 
-![]({{ site.github.url }}/assets/images/7/tsksq.jpg)
+There are various ellements within the "State Capture" of a sequence that can be disabled including, Groups, Network Settings and User Files.
+There is also another section within "Preinstall" called "Offline User State Capture".
+
+![]({{ site.github.url }}/assets/images/7/tsksq1.jpg)
+
 
 ## Pitfalls
 
   - Starting a build from windows no PXE boot will force the build to type REFRESH.  Watch out for unwanted state restore and increased build time.
+
+  - Disabling the entire "State Capture" tree stops the deployment as this is where the Windows PE is applied for REFRESH only
+  ![]({{ site.github.url }}/assets/images/7/tsksq.jpg)
