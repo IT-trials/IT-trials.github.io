@@ -28,8 +28,8 @@ For me this caused no particularly important problems as I delete machines in AD
 
 This backup can be blocked within a task sequence and also possibly through a further rule in CustomSettings.ini but I am unsure atm.  
 
-There are various ellements within the "State Capture" of a sequence that can be disabled including, Groups, Network Settings and User Files.
-There is also another section within "Preinstall" called "Offline User State Capture".
+There are various elements within the "State Capture" of a sequence that can be disabled including, Groups, Network Settings and User Files.
+There is also another section within "Preinstall" called "Offline User State Capture" and "Refresh Only - Backup" .
 
 ![]({{ site.github.url }}/assets/images/7/tsksq1.jpg)
 
