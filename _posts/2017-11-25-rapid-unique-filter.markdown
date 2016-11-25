@@ -12,11 +12,11 @@ A first scan of solutions online provided the following.
 
     $set | sort -unique
 
-This wasn't very quick on large sets and I was interested in fining a .Net data type specialized for unique values.
+This wasn't very quick on large sets and I was interested in finding a .NET data type specialized for unique values.
 
 I found this in the following type: [HashSet(T)](https://msdn.microsoft.com/en-us/library/bb359438(v=vs.110).aspx)
 
-Its easy to use as powershell is so concise and way faster as the data remains unsorted.
+Its easy to convert types in powershell.  The syntax is so concise and the result way faster as the data remains unsorted.
 e.g.
 
     [System.Collections.Generic.HashSet[string]]$unique = $inputA
