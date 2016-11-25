@@ -46,3 +46,8 @@ body {
   color: #fff;
   padding: 1em 0;
 }
+
+.overflow {
+  overflow-x: scroll;
+  >* {width: auto;}
+}
