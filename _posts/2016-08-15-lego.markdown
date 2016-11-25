@@ -2,7 +2,7 @@
 title: Lego Mindstorm & WeDo
 number: 8
 layout: post
-categories: Scripting, PDQ
+categories: Scripting
 ---
 ## Problem
 Create a Silent Installer for Mindstorm EV3 Edu & WeDo.  These packages seem to contain development platforms, drivers and configuration upload utilities for two classes of Lego Controllers.
