@@ -19,3 +19,4 @@ sass:
 
 gems: 
   - jekyll-gist
+  - jekyll-sitemap
