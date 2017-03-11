@@ -10,7 +10,7 @@ Wake on LAN on a domain with c.400 computers using a Database of MAC addresses
 
 ## Solution:
 
-{% Gist 261ad5c3084950bec65c35189eac39e0 %}
+{% gist 261ad5c3084950bec65c35189eac39e0 %}
 
 ## Pitfalls
 
