@@ -14,4 +14,4 @@ Wake on LAN on a domain with c.400 computers using a Database of MAC addresses
 
 ## Pitfalls
 
-  - Starting a build from windows no PXE boot will force the build to type REFRESH.  Watch out for unwanted state restore and increased build time.
+  - Need use a computer on the VLAN or fancy switch config.
