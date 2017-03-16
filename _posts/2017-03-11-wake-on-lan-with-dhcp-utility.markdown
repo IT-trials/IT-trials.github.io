@@ -17,9 +17,9 @@ To achieve this I first thought to refference an existing collection of MAC addr
 
 A Powershell module called the [DhcpServer Module](https://technet.microsoft.com/itpro/powershell/windows/dhcp-server/index), available on a windows dhcp server (and maybe elsewhere), has some really usefull Cmdlets for querying DHCP.  I built up an idea how to use them following this [Weekend Scripter Blog](https://blogs.technet.microsoft.com/heyscriptingguy/2013/01/13/weekend-scripter-parsing-the-dhcp-database-no-way/).
 
-The following is a working attempt at combining both DHCP queries with an implementation of a Wake on Lan Utility from depicus' imaginatively called (Wake on Lan)[https://www.depicus.com/wake-on-lan/].
+The following is a working attempt at combining both DHCP queries with an implementation of a Wake on Lan Utility from depicus' imaginatively called [Wake on Lan](https://www.depicus.com/wake-on-lan/).
 
-Please don't presume that the following script is fully tested or developed.  I intend to use (Parameter Sets)[https://blogs.technet.microsoft.com/heyscriptingguy/2011/06/30/use-parameter-sets-to-simplify-powershell-commands/] and also implement (Write-Verbose)[https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/] in place of the current Write-Output which is widely regarded as (bad practice)[http://www.jsnover.com/blog/2013/12/07/write-host-considered-harmful/].
+Please don't presume that the following script is fully tested or developed.  I intend to use [Parameter Sets](https://blogs.technet.microsoft.com/heyscriptingguy/2011/06/30/use-parameter-sets-to-simplify-powershell-commands/) and also implement [Write-Verbose](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/) in place of the current Write-Output which is widely regarded as [bad practice](http://www.jsnover.com/blog/2013/12/07/write-host-considered-harmful/).
 
 {% gist 261ad5c3084950bec65c35189eac39e0 %}
 
