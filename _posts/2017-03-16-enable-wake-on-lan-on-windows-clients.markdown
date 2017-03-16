@@ -10,11 +10,13 @@ I found a lot of posts suggesting to enable WOL from a windows GUI and maybe oth
 ![]({{ site.github.url }}/assets/images/12/gui.jpg)
 
 ## Solution:
-My boss suggested the following, using netsh, and it worked a dream.
+My boss, a linux man, suggested the following, using netsh, and it worked a dream.
 
-   Netsh int ip set int {AdapterName} forcearpndwolpattern=enabled
+    Netsh int ip set int {AdapterName} forcearpndwolpattern=enabled
 
-We found that almost all devices on our Domain had one of two Adapter names depending if they were "Windows 7 Pro" or "Windows 10 Education"):- "Ethernet”  or ”Local Area Connection”
+We found that almost all devices on our Domain had one of two Adapter names depending if they were "Windows 7 Pro" or "Windows 10 Education"
+  - "Ethernet”  
+  - ”Local Area Connection”
 
 You can get a list of your own adapters with the following command:
 

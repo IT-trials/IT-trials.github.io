@@ -1,5 +1,5 @@
 ---
-title: Enable Wake on a Windows Client
+title: Why is Write-Verbose not Doing Anything?
 number: 13
 layout: post
 categories: Scripting
@@ -16,7 +16,7 @@ Give PowerShell a chance - it's made it pretty easy for you - just put cmdletbin
     [cmdletbinding()]
     param()
 
-Powershell will then give you some free [common parameters](https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters).
+Powershell will then give you some free [common parameters](https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters) including -verbose.
 
   - Debug (db)
   - ErrorAction (ea)
@@ -30,7 +30,8 @@ Powershell will then give you some free [common parameters](https://msdn.microso
   - WarningAction (wa)
   - WarningVariable (wv)
 
-Thanks to Ed Wilson, Microsoft Scripting Guy, for solving my problem and leading me into this interesting topic in [his post](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/).
+
+Thanks to Ed Wilson, Microsoft Scripting Guy, for providing a solution to my problem and leading me into this interesting topic in [his post](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/).
 
 There is a lot more you can do with the [Parameter Binding Attribute](https://msdn.microsoft.com/powershell/reference/5.1/Microsoft.PowerShell.Core/about/about_Functions_CmdletBindingAttribute)
 
