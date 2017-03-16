@@ -26,7 +26,7 @@ Please don't presume that the following script is fully tested or developed.  I 
 and also implement [Write-Verbose](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/) 
 in place of the current Write-Output which is widely regarded as [bad practice](http://www.jsnover.com/blog/2013/12/07/write-host-considered-harmful/).
 
-    `{% gist 261ad5c3084950bec65c35189eac39e0 %}
+{% gist 96960b1830ba029c302919e1cdeb9645 %}
 
 ## Pitfalls
 
