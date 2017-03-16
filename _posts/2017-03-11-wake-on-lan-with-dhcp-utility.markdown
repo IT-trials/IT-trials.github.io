@@ -25,6 +25,8 @@ Please don't presume that the following script is fully tested or developed.  I 
 
 ## Pitfalls
 
+  - Need to initiate Wake on LAN command on a computer on the same Subnet\VLAN as the taget computer or utilise a less than completely basic router config (see. [Subnet directed broadcasts](https://en.wikipedia.org/wiki/Wake-on-LAN#Subnet_directed_broadcasts)).
+
   - I found that this DHCP query only returned relatively recent Leases dependant on the life of the lease this might only be a few hours or days.  As such it thought it might struggle to turn on a machine that had been off for a month say during a summer holiday at a school.
   
   - This script just isn't finished.  It's not fully developed or tested and I might never complete it as I'm now working on a better one that queries our PDQ Inventory database for a Host's MAC Address Site(Subnet/Broadcast Address).
