@@ -10,7 +10,7 @@ I found a lot of posts suggesting to enable WOL from a windows GUI and maybe oth
 ![]({{ site.github.url }}/assets/images/12/gui.jpg)
 
 ## Solution:
-My boss, a linux man, suggested the following, using netsh, and it worked a dream.
+[My boss](https://github.com/harrywright), a linux man, suggested the following, using netsh, and it worked a dream.
 
     Netsh int ip set int {AdapterName} forcearpndwolpattern=enabled
 
