@@ -1,6 +1,6 @@
 ---
 title: Does C# have something like php's isset()?
-number: 14
+number: 11
 layout: post
 categories: Scripting
 ---
