@@ -13,4 +13,4 @@ Task Scheduler can run tasks and scripts as a privileged user but be triggered b
 
 [Technet Artical](https://blogs.technet.microsoft.com/wincat/2011/08/25/trigger-a-powershell-script-from-a-windows-event/) and [spiceworks](https://community.spiceworks.com/how_to/123434-run-powershell-script-on-windows-event) have great articles on how to achieve this, which I followed to create my solution.
 
-{% gist 45d291f9e9fcf68f8a4741d433920717 %}
+{% gist 7be445c5037ba78b969e966e9ef17276 %}
