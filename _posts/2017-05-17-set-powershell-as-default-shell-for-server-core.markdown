@@ -28,7 +28,7 @@ with the following value
 
 ![]({{ site.github.url }}/assets/images/17/alternateShell.png)
 
-As Carlos explains this has an added complexity.  You must change the owner of the hive otherwise a GPO or other attempt to create a new key will fail.
+As Carlos explains this has an added complexity.  You must change the owner of the hive otherwise a any attempt to create a new key will fail.
 
 For this reason my GPO has two elements, a security setting and a registry key.
 ![]({{ site.github.url }}/assets/images/17/sec.jpg)
