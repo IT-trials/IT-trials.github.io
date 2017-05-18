@@ -29,6 +29,7 @@ On my next attempt I tried the following.
     powershell.exe -ExecutionPolicy Bypass -Command ".\Install-WMF5.1.ps1 -AcceptEula"
 
 However it fails with the following error
+![]({{ site.github.url }}/assets/images/18/cmdError.JPG)
 
 This is because launching PowerShell from the batch file causes confusion in the script invocation path.  Including the whole directory structure solves this problem.
 
@@ -71,3 +72,6 @@ Overall the deployment of WMF 5.1 seems to be an improvement on previous edition
    - Microsoft Lync Server 2013
    - Microsoft Lync Server 2010
    - System Center 2012 R2 Service Management Automation
+
+-  wusa doesn't like UNC paths try mapping a drive or copy the files locally.
+   ![]({{ site.github.url }}/assets/images/18/error.JPG)
