@@ -27,15 +27,18 @@ For this reason my GPO has two elements, a security setting and a registry key.
 ### wmi query
 For an extra level of safety and mainly to keep things neat you might add a wmi query to your gpo.
 
-Here is an example from Richard J Green's solution which is very neat
+Here is an example from Richard J Green's solution which is very neat but only seems to only work for 2012R2 and not 2016 Core servers.
 
     SELECT InstallState FROM Win32_OptionalFeature WHERE (Name = "Server-Gui-Shell") AND (InstallState = "2")
 
-And another from [technet](https://blogs.technet.microsoft.com/askds/2008/09/11/fun-with-wmi-filters-in-group-policy/)
+And another from [technet](https://blogs.technet.microsoft.com/askds/2008/09/11/fun-with-wmi-filters-in-group-policy/) which was actually useless to me as almost all my servers had a SKU of 7 no mater what version or if they were core or not.
 
     SELECT OperatingSystemSKU FROM Win32_OperatingSystem WHERE OperatingSystemSKU = 12 OR OperatingSystemSKU = 39 OR OperatingSystemSKU= 14 OR OperatingSystemSKU = 41 OR OperatingSystemSKU = 13 OR OperatingSystemSKU = 40 OR OperatingSystemSKU = 29
 
-I'll run some tests and append the results here.
+I settled on targeting 2012R2 and 2016 Servers as I have tested for unwanted effects on gui servers.
+
+    select * from Win32_OperatingSystem where Version like "6.3%" or Version like "10%"
+    SELECT * FROM Win32_OperatingSystem WHERE ProductType = 2 OR ProductType = 3
 
 ## Pitfalls:
 -  The AlternateShell key may not be effective on older servers.  When testing for unwanted outcomes on a Server 2008 edition with a gui, the key was ignored when running Alternate Shell from Safe Mode. Also the hive was not originally present and therefore unlikely to be queried in any case.
