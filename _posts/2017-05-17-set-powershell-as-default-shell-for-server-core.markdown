@@ -41,5 +41,6 @@ I settled on targeting 2012R2 and 2016 Servers as I have tested for unwanted eff
     SELECT * FROM Win32_OperatingSystem WHERE ProductType = 2 OR ProductType = 3
 
 ## Pitfalls:
--  The AlternateShell key may not be effective on older servers.  When testing for unwanted outcomes on a Server 2008 edition with a gui, the key was ignored when running Alternate Shell from Safe Mode. Also the hive was not originally present and therefore unlikely to be queried in any case.
+-  When testing for unwanted outcomes on a Server 2008 and 2016 edition with a gui, the key was ignored when running Alternate Shell from Safe Mode.  This is fine but shows a limit to the extent of this particular key.
+-  The AlternateShell key may not be effective on older servers.  I haven't tested on anything older the 2012R2.  The hive was not originally present on older instances and therefore unlikely to be queried.
 ![]({{ site.github.url }}/assets/images/17/safeMode.jpg)
