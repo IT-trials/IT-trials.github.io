@@ -11,11 +11,20 @@ When you log onto a server Core instance. CMD.exe is the default shell.  It can 
 ## Solution:
 From Server 2012? there is a registry hive
 
-[Richard J Green](https://richardjgreen.net/about/) has a great solution [here](https://richardjgreen.net/setting-powershell-default-shell-server-core/).  I fear this might be a little heavy handed.  If this policy was accidently applied to a client machine or gui server then the default value of explorer.exe would be over-written and the results are interesting to imagine.  I have however used his WMI query later for extra filtering on my somewhat safer GPO.
+[Richard J Green](https://richardjgreen.net/about/) has a great solution [here](https://richardjgreen.net/setting-powershell-default-shell-server-core/).  I fear this might be a little heavy handed.  If this policy was accidently applied to a client machine or gui server then the default value of explorer.exe would be over-written and the results are interesting to imagine (I haven't tested it out).  
 
 ![]({{ site.github.url }}/assets/images/17/shell.jpg)
 
-I chose a slightly different strategy as suggested by [Carlos Perez](https://www.darkoperator.com/about-me/) at [Dark Operator](https://www.darkoperator.com/blog/2013/1/10/set-powershell-as-your-default-shell-in-windows-2012-core.html) to create a new different hive.  `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\AlternateShells\AvailableShells`
+However his WMI query is discussed later for those wanting extra filtering on what I understand to be a safer registry edit.
+
+I chose a slightly different strategy as suggested by [Carlos Perez](https://www.darkoperator.com/about-me/) at [Dark Operator](https://www.darkoperator.com/blog/2013/1/10/set-powershell-as-your-default-shell-in-windows-2012-core.html) to create a new key (REG_SZ) called 40000 in a different hive:
+
+
+    HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\AlternateShells\AvailableShells
+
+with the following value
+
+    powershell.exe -noexit -command "& {set-location $env:userprofile; clear-host}"
 
 ![]({{ site.github.url }}/assets/images/17/alternateShell.png)
 

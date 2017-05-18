@@ -18,7 +18,8 @@ You need to include the `-AcceptEula` switch and maybe `-AllowRestart` although 
 -  Take a look if Windows Management Framework 3 is installed first. I will quote the above MSDN article:
     > "WMF 3.0 must not be installed. Installing WMF 5.1 over WMF 3.0 will result in the loss of the PSModulePath, which can cause other applications to fail. Before installing WMF 5.1, you must either un-install WMF 3.0, or save the PSModulePath and then restore it manually after WMF 5.1 installation is complete."
 
-    The following information may help you test for existence of WMF 3
+    Hot fixes to look out for are KB2506143 & KB2506146 as per this extract from the WMF documentation:
+>
     -  Windows 7 Service Pack 1
         -  64-bit versions: Windows6.1-KB2506143-x64.msu
         -  32-bit versions: Windows6.1-KB2506143-x86.msu
