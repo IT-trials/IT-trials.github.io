@@ -47,6 +47,7 @@ Anyway there are lots of ways to get this wrong and lots of bad workarounds.
 
 
 ## Solution:
+![]({{ site.github.url }}/assets/images/20/Success.JPG)
 I finally found an acceptable syntax for passing arguments to a new powershell instance.  It is actually in line with the above quoted syntax `-Command <script-block> [-args <arg-array>]`.  
 
 After many different variations with odd output and useless errors. I did finally get a useful type error using an variation including an "Invoke-Command".
