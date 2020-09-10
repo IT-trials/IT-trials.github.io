@@ -73,3 +73,21 @@ No need for any extra complex escaping or unwanted persisted variables.  Just ke
     $command = {param($ham) write-host $ham}
 
     Start-Process powershell -ArgumentList "-noexit -command & {$command}  $arg"
+
+### Update 10/9/2020
+
+Following a comment from [Boris Andonov](https://disqus.com/by/andonoff/){:target="_blank"}.
+
+I should reinforce that the second last example using “Invoke-Command” is more powerful than & and will allow you to pass several arguments for example
+
+    $text = "'This is a test message.'"
+
+    $cmd = { param([string]$msg, [int]$proc); Write-Host "$msg FROM PID: $proc" }
+
+    Start-Process powershell -ArgumentList "-noexit -command (Invoke-Command -ScriptBlock {$cmd} -ArgumentList $text, $PID)"
+
+Furthermore although ````$arg = "HAM"```` is acceptable ````$arg = "HAM SANDWICH"```` is not.  "If the string contain spaces it must be encapsulated with double quotes and single quotes."  So we must write, ````$arg = "'HAM SANDWICH'"````.
+
+And amazingly if you want to escape double quotes inside a string requires 8 double quotes:
+ 
+    $text = "'This is a """"""""test"""""""" message.'"
