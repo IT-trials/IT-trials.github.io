@@ -11,7 +11,7 @@ I want to archive user files to a secure location on their logout.  I could prob
 ## Solution:
 Task Scheduler can run tasks and scripts as a privileged user but be triggered by a less privileged user or even an event.  For this reason I decided to use it to manage the archiving task.  It's also useful to note, it's possible to capture data from a trigger event to pass to a task and indeed the following solution does just that.
 
-[Technet](https://blogs.technet.microsoft.com/wincat/2011/08/25/trigger-a-powershell-script-from-a-windows-event/) and [spiceworks](https://community.spiceworks.com/how_to/123434-run-powershell-script-on-windows-event) have great articles on how to achieve this, which I followed them both in order to create my own similar solution.
+[Technet](https://blogs.technet.microsoft.com/wincat/2011/08/25/trigger-a-powershell-script-from-a-windows-event/){:target="_blank"} and [spiceworks](https://community.spiceworks.com/how_to/123434-run-powershell-script-on-windows-event){:target="_blank"} have great articles on how to achieve this, which I followed them both in order to create my own similar solution.
 
 In my case a number of exam service accounts have folder redirection for their desktop and user files to a network share.  These accounts might be used for several exams in one day and the old files must be archived between exams.  I decided to try and automate this at user logout as the students may be invigilated by people with basic access and ability with computers.  First I trawled the fileserver's event logs for a relevant event.  This was actually really easy to isolate and event viewer will even write you a basic query you can then add more properties too.
 

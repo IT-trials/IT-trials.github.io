@@ -6,7 +6,7 @@ categories: Scripting
 ---
 
 ## Problem:
-Microsoft User Experience Virtualization or UE-V has largely replaced more traditional roaming profiles.  I'm currently rolling this out on Windows 7 to use sympathetically with the growing collection of Windows 10 machines which natively support UE-V and really doesn't work well with roaming profiles. UE-V is [available as part of the Microsoft Desktop Optimization Pack - MDOP](https://technet.microsoft.com/en-us/windows/mdop.aspx).
+Microsoft User Experience Virtualization or UE-V has largely replaced more traditional roaming profiles.  I'm currently rolling this out on Windows 7 to use sympathetically with the growing collection of Windows 10 machines which natively support UE-V and really doesn't work well with roaming profiles. UE-V is [available as part of the Microsoft Desktop Optimization Pack - MDOP](https://technet.microsoft.com/en-us/windows/mdop.aspx){:target="_blank"}.
 
 I want to deploy with pdq using a silent installer.
 

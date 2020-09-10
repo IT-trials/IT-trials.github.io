@@ -6,7 +6,7 @@ categories: Scripting
 ---
 
 ## Problem:
-PowerShell 5.1 is [available](https://blogs.msdn.microsoft.com/powershell/2017/01/19/windows-management-framework-wmf-5-1-released/). To standardise the version of PowerShell on the network to the level of newer Server 2016 and Windows 10 machines I want install the Windows Management Framework 5.1 everywhere possible.  However, it doesn't install so easily as Windows Management Framework 5 for Windows 7 machines.
+PowerShell 5.1 is [available](https://blogs.msdn.microsoft.com/powershell/2017/01/19/windows-management-framework-wmf-5-1-released/){:target="_blank"}. To standardise the version of PowerShell on the network to the level of newer Server 2016 and Windows 10 machines I want install the Windows Management Framework 5.1 everywhere possible.  However, it doesn't install so easily as Windows Management Framework 5 for Windows 7 machines.
 
 I tweaked the existing batch file I used to deploy wmf 5 from pdq and mdt
 
@@ -21,7 +21,7 @@ The following is not much better.
 ## Solution:
 Read the release notes...
 
-The solution is on [MSDN](https://msdn.microsoft.com/en-us/powershell/wmf/5.1/install-configure)
+The solution is on [MSDN](https://msdn.microsoft.com/en-us/powershell/wmf/5.1/install-configure){:target="_blank"}
 You need to include the `-AcceptEula` switch and maybe `-AllowRestart` although not in my case.
 
 On my next attempt I tried the following.
@@ -48,7 +48,7 @@ This final option looses all the error checking and support for both 64 and 32 b
     powershell.exe -ExecutionPolicy Bypass -Command "%~dp0\Install-WMF5.1.ps1 -AcceptEula"
 
 
-Overall the deployment of WMF 5.1 seems to be an improvement on previous editions it's just a bit fiddly.  This version seems to have done away with the need to [step up through previous versions](https://msdn.microsoft.com/en-us/powershell/wmf/5.0/requirements).  The compatibility testing and platform control managed from the installer ps1 are nice features.
+Overall the deployment of WMF 5.1 seems to be an improvement on previous editions it's just a bit fiddly.  This version seems to have done away with the need to [step up through previous versions](https://msdn.microsoft.com/en-us/powershell/wmf/5.0/requirements){:target="_blank"}.  The compatibility testing and platform control managed from the installer ps1 are nice features.
 
 ## Pitfalls:
 -  Take a look if Windows Management Framework 3 is installed first. I will quote the above MSDN article:
@@ -65,7 +65,7 @@ Overall the deployment of WMF 5.1 seems to be an improvement on previous edition
         -  64-bit versions: Windows6.0-KB2506146-x64.msu
         -  32-bit versions: Windows6.0-KB2506146-x86.msu
 
--  Note know incompatibility with following [(see msdn)](https://msdn.microsoft.com/en-us/powershell/wmf/5.1/productincompat):
+-  Note know incompatibility with following [(see msdn)](https://msdn.microsoft.com/en-us/powershell/wmf/5.1/productincompat){:target="_blank"}:
    - Microsoft Exchange Server 2013
    - Microsoft Exchange Server 2010 SP3
    - Skype for Business Server 2015

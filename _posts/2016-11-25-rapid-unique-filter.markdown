@@ -14,7 +14,7 @@ A first scan of solutions online provided the following.
 
 This wasn't very quick on large sets and I was interested in finding a .NET data type specialized for unique values.
 
-I found this in the following type: [HashSet(T)](https://msdn.microsoft.com/en-us/library/bb359438(v=vs.110).aspx)
+I found this in the following type: [HashSet(T)](https://msdn.microsoft.com/en-us/library/bb359438(v=vs.110).aspx){:target="_blank"}
 
 Its easy to convert types in powershell.  The syntax is so concise and the result way faster as the data remains unsorted.
 e.g.

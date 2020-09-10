@@ -11,13 +11,13 @@ When you log onto a server Core instance. CMD.exe is the default shell.  It can 
 ## Solution:
 From Server 2012? there is a registry hive
 
-[Richard J Green](https://richardjgreen.net/about/) has a great solution [here](https://richardjgreen.net/setting-powershell-default-shell-server-core/).  I fear this might be a little heavy handed.  If this policy was accidently applied to a client machine or gui server then the default value of explorer.exe would be over-written and the results are interesting to imagine (I haven't tested it out).  
+[Richard J Green](https://richardjgreen.net/about/){:target="_blank"} has a great solution [here](https://richardjgreen.net/setting-powershell-default-shell-server-core/){:target="_blank"}.  I fear this might be a little heavy handed.  If this policy was accidentally applied to a client machine or gui server then the default value of explorer.exe would be over-written and the results are interesting to imagine (I haven't tested it out).  
 
 ![]({{ site.github.url }}/assets/images/17/shell.jpg)
 
 However his WMI query is discussed later for those wanting extra filtering on what I understand to be a safer registry edit.
 
-I chose a slightly different strategy as suggested by [Carlos Perez](https://www.darkoperator.com/about-me/) at [Dark Operator](https://www.darkoperator.com/blog/2013/1/10/set-powershell-as-your-default-shell-in-windows-2012-core.html) to create a new key (REG_SZ) called 40000 in a different hive:
+I chose a slightly different strategy as suggested by [Carlos Perez](https://www.darkoperator.com/about-me/){:target="_blank"} at [Dark Operator](https://www.darkoperator.com/blog/2013/1/10/set-powershell-as-your-default-shell-in-windows-2012-core.html){:target="_blank"} to create a new key (REG_SZ) called 40000 in a different hive:
 
 
     HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\AlternateShells\AvailableShells
@@ -40,7 +40,7 @@ Here is an example from Richard J Green's solution which is very neat but only s
 
     SELECT InstallState FROM Win32_OptionalFeature WHERE (Name = "Server-Gui-Shell") AND (InstallState = "2")
 
-And another from [technet](https://blogs.technet.microsoft.com/askds/2008/09/11/fun-with-wmi-filters-in-group-policy/) which was actually useless to me as almost all my servers had a SKU of 7 no mater what version or if they were core or not.
+And another from [technet](https://blogs.technet.microsoft.com/askds/2008/09/11/fun-with-wmi-filters-in-group-policy/){:target="_blank"} which was actually useless to me as almost all my servers had a SKU of 7 no mater what version or if they were core or not.
 
     SELECT OperatingSystemSKU FROM Win32_OperatingSystem WHERE OperatingSystemSKU = 12 OR OperatingSystemSKU = 39 OR OperatingSystemSKU= 14 OR OperatingSystemSKU = 41 OR OperatingSystemSKU = 13 OR OperatingSystemSKU = 40 OR OperatingSystemSKU = 29
 

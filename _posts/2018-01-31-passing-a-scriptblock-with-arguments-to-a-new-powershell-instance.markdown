@@ -33,7 +33,7 @@ I spent at least an hour trying lots of slightly different syntax arrangements, 
              [-Command { - | <script-block> [-args <arg-array>]
                            | <string> [<CommandParameters>] } ]
 
-Also [SS64](https://ss64.com/ps/powershell.html) have a more descriptive but equally elusive, to me, description:
+Also [SS64](https://ss64.com/ps/powershell.html){:target="_blank"} have a more descriptive but equally elusive, to me, description:
 
     -Command          Execute the specified commands (and any parameters) as though they
                       were typed at the PowerShell prompt, and then exit, unless NoExit is specified.
@@ -63,7 +63,7 @@ After many different variations with odd output and useless errors. I did finall
 
 As this stated that my $command parameter was of type string and must be a script-block I tried to through on another set of curly braces.
 
-In addition to getting better error messages, using the Invoke-Command gives you the recognisable "-ArgumentList" parameter to operate against the given Command that you are missing with the standard [powershell.exe parameters](https://docs.microsoft.com/en-us/powershell/scripting/core-powershell/console/powershell.exe-command-line-help?view=powershell-5.1).
+In addition to getting better error messages, using the Invoke-Command gives you the recognisable "-ArgumentList" parameter to operate against the given Command that you are missing with the standard [powershell.exe parameters](https://docs.microsoft.com/en-us/powershell/scripting/core-powershell/console/powershell.exe-command-line-help?view=powershell-5.1){:target="_blank"}.
 
     Start-Process powershell -ArgumentList "-noexit -command invoke-command -scriptblock {$command} -argumentlist $arg"
 

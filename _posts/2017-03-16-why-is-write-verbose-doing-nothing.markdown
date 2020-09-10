@@ -16,7 +16,7 @@ Give PowerShell a chance - it's made it pretty easy for you - just put cmdletbin
     [cmdletbinding()]
     param()
 
-Powershell will then give you some free [common parameters](https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters) including -verbose.
+Powershell will then give you some free [common parameters](https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters){:target="_blank"} including -verbose.
 
   - Debug (db)
   - ErrorAction (ea)
@@ -31,9 +31,9 @@ Powershell will then give you some free [common parameters](https://msdn.microso
   - WarningVariable (wv)
 
 
-Thanks to Ed Wilson, Microsoft Scripting Guy, for providing a solution to my problem and leading me into this interesting topic in [his post](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/).
+Thanks to Ed Wilson, Microsoft Scripting Guy, for providing a solution to my problem and leading me into this interesting topic in [his post](https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/){:target="_blank"}.
 
-There is a lot more you can do with the [Parameter Binding Attribute](https://msdn.microsoft.com/powershell/reference/5.1/Microsoft.PowerShell.Core/about/about_Functions_CmdletBindingAttribute)
+There is a lot more you can do with the [Parameter Binding Attribute](https://msdn.microsoft.com/powershell/reference/5.1/Microsoft.PowerShell.Core/about/about_Functions_CmdletBindingAttribute){:target="_blank"}
 
 ## Pitfalls
 

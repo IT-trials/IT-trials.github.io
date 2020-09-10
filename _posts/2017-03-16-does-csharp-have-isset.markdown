@@ -13,7 +13,7 @@ I've been making a dogs ear of an if statement in PowerShell but what I need is 
 
 
 ## Solution:
-Enter .Net static method [`[string]::IsNullOrEmpty()`](https://msdn.microsoft.com/en-us/library/system.string.isnullorempty(v=vs.110).aspx)
+Enter .Net static method [`[string]::IsNullOrEmpty()`](https://msdn.microsoft.com/en-us/library/system.string.isnullorempty(v=vs.110).aspx){:target="_blank"}
 
     if( [string]::IsNullOrEmpty($var1) ){ "Phew" }
     elseif( !([string]::IsNullOrEmpty($var2)) ){"That's a relief"}
