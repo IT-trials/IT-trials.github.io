@@ -53,4 +53,4 @@ In the constructor using a [AmazonDynamoDBConfig](https://docs.aws.amazon.com/sd
     AmazonDynamoDBClient client = 
         new AmazonDynamoDBClient(credentials, clientConfig )
 
-Or preferably, once you have proof of concept, get all your config in a configuration manager. AWS give an example using an [app.config file on their code examples page](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CodeSamples.DotNet.html){:target="_blank"}.
+Or preferably, once you have proof of concept, get all your config in a configuration manager. AWS give an example using an [app.config file on their code examples page](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CodeSamples.DotNet.html){:target="_blank"}. However, a more complete and appropriate approach is documented in [Gary Woodfine's](https://dev.to/gary_woodfine){:target="_blank"}  article "Simple Dependency Injection In AWS Lambda .net core"](https://dev.to/gary_woodfine/simple-dependency-injection-in-aws-lambda-net-core-n0g){:target="_blank"}.

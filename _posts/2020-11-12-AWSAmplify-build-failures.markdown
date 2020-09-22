@@ -22,9 +22,9 @@ If you have been developing against up-to-date versions of Jekyll, Ruby or Bundl
 
 You have a few options:
 
-If you need features that the newer versions offer you can force particular versions with [Custom Build Images or Live Package Updates](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html)
+If you need features that the newer versions offer you can force particular versions with [Custom Build Images or Live Package Updates](https://docs.aws.amazon.com/amplify/latest/userguide/custom-build-image.html){:target="_blank"} 
 
-Alternatively, you can set your local dependencies to match the build server.  This would ideally be achieved with a docker image.  However, I haven't seen a link to the images Amplify uses.  Please link in the comments if you find them.  I like how [GitHub Pages](https://pages.github.com/) make it easy for you to match development and build environments with a github-pages gem file.
+Alternatively, you can set your local dependencies to match the build server.  This would ideally be achieved with a docker image.  However, I haven't seen a link to the images Amplify uses.  Please link in the comments if you find them.  I like how [GitHub Pages](https://pages.github.com/){:target="_blank"}  make it easy for you to match development and build environments with a github-pages gem file.
 
 In my case I replicated the build server with the following commands.
 
@@ -34,4 +34,4 @@ In my case I replicated the build server with the following commands.
 
 If you choose this method, you'll probably have to customise to match versions to the errors in your log.  And if you're using a node based build you'll have to do something similar with npm and yarn.
 
-N.B. I'll not cover installation of rbnev in this trial here is a link to their [source/documentation](https://github.com/rbenv/rbenv). [RVM](https://rvm.io/) does a similar job.
+N.B. I'll not cover installation of rbnev in this trial here is a link to their [source/documentation](https://github.com/rbenv/rbenv){:target="_blank"} . [RVM](https://rvm.io/){:target="_blank"}  does a similar job.
