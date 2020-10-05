@@ -9,7 +9,7 @@ github_username:  it-trials
 
 permalink: /:categories/:title.html #simplify url structure
 
-exclude: [Gemfile, Gemfile.lock, README.md] # Don't copy these into _site
+exclude: [Gemfile, Gemfile.lock, README.md, redirect.ps1, docs] # Don't copy these into _site
 
 # Build settings
 markdown: kramdown
