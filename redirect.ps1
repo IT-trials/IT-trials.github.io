@@ -40,3 +40,4 @@ foreach($page in $pages){
     redirectPage($uri) | Out-File $outputDir$page
 
 }
+touch "./$outputDir/.nojekyll"
