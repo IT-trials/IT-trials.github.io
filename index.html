@@ -1,22 +1,15 @@
 ---
-layout: default
+layout: home
+description: |
+  This blog hopes to share some of the solutions I land on in the course of my work as Developer and previously as a Systems Administrator.  
+  
+  My primary focus will not be tutorials or best practice, just short and simple posts of the form "error message -> solution -> reflection".
+
 ---
 
 <div class="home">
 
   <h1 class="page-heading">Trials</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">Trial #{{post.number}}: {{post.title}}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
+  {{ page.description | markdownify }}
 
 </div>

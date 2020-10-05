@@ -17,6 +17,49 @@ markdown: kramdown
 sass:
   style: compressed
 
-plugins: 
-  - jekyll-gist
-  - jekyll-sitemap
+theme: minimal-mistakes-jekyll
+
+minimal_mistakes_skin: "dark"
+
+author: Craig Chamberlain
+
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      author_profile: true
+      layout: single
+      read_time: true
+      comments: true
+      share: true
+      related: true
+
+    # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      author_profile: true
+  - scope:
+      path: "categories"
+      type: pages
+    values:
+      layout: category
+      
+
+
+comments:
+  provider: "disqus"
+  disqus:
+    shortname: "ittrials"
+
+social:
+  type:  # Person or Organization (defaults to Person)
+  name:  Craig Chamberlain
+  links:
+    - "https://twitter.com/hagatorn"
+    - "https://www.linkedin.com/in/craig-chamberlain-61037149"
+    - "https://stackoverflow.com/users/3822155/craig-c"
+    

@@ -1,0 +1,11 @@
+# main links
+main:
+    - title: "AWS"
+      url: /aws
+    - title: "Group Policy"
+      url: /gpo
+    - title: "MS Deployment Toolkit"
+      url: /mdt
+    - title: "Scripting"
+      url: /scripting
+
