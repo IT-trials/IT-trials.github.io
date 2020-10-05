@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "Office 2013 Rearm"
 number: 1
 categories: MDT

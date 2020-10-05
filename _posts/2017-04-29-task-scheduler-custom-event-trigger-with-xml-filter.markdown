@@ -1,7 +1,6 @@
 ---
 title: Task Scheduler Custom Event Trigger with XML Filter and Parameter Output
 number: 16
-layout: post
 categories: Scripting
 ---
 

@@ -1,7 +1,6 @@
 ---
 title: Wake on Lan Utility with PDQ Query and DHCP Option
 number: 15
-layout: post
 categories: Scripting
 ---
 

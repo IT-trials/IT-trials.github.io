@@ -1,7 +1,6 @@
 ---
 title: Installing PowerShell 5.1
 number: 18
-layout: post
 categories: Scripting
 ---
 

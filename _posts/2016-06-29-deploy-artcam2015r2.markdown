@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "ArtCAM 2015 R2 - JewelSmith Deployment"
 number: 2
 categories: MDT

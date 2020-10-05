@@ -1,7 +1,6 @@
 ---
 title: Amplify Build Errors (Jekyll Static Site)
 number: 23
-layout: post
 categories: AWS
 ---
 

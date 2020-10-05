@@ -1,7 +1,6 @@
 ---
 title: Set PowerShell as Default Shell for Server Core
 number: 17
-layout: post
 categories: GPO
 ---
 

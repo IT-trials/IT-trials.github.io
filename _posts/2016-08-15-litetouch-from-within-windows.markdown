@@ -1,7 +1,6 @@
 ---
 title: Launching an MDT build from Litetouch.vbs while logged into Windows
 number: 7
-layout: post
 categories: MDT
 ---
 

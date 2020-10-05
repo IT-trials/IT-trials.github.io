@@ -1,6 +1,5 @@
 ---
 title: "SolidWorks 2016 Silent Install"
-layout: post
 number: 4
 categories: MDT
 

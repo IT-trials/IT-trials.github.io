@@ -1,7 +1,6 @@
 ---
 title: Enable Wake on a Windows Client
 number: 12
-layout: post
 categories: Scripting
 ---
 

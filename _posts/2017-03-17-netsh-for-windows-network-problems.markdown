@@ -1,7 +1,6 @@
 ---
 title: Netsh for Windows Network Problems
 number: 14
-layout: post
 categories: Scripting
 ---
 

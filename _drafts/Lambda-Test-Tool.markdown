@@ -1,7 +1,6 @@
 ---
 title: Lambda Test Tool
 number: 
-layout: post
 categories: AWS
 ---
 

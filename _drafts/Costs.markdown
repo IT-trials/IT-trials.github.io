@@ -1,7 +1,6 @@
 ---
 title: Costs
 number: 
-layout: post
 categories: AWS
 ---
 

@@ -1,5 +1,4 @@
 ---
-layout: post
 title: "KeyShot"
 number: 3
 categories: GPO

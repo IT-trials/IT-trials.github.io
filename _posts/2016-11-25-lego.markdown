@@ -1,7 +1,6 @@
 ---
 title: Lego Mindstorm & WeDo
 number: 8
-layout: post
 categories: Scripting
 ---
 ## Problem

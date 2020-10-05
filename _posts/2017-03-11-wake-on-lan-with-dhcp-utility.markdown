@@ -1,7 +1,6 @@
 ---
 title: Wake on Lan Utility with DHCP Query
 number: 10
-layout: post
 categories: Scripting
 ---
 

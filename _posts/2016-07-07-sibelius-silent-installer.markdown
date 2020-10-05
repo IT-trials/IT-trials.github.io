@@ -1,7 +1,6 @@
 ---
 title: Packaging Sibelius 7.1 Installer
 number: 5
-layout: post
 categories: MDT
 ---
 

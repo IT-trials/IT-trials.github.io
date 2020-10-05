@@ -1,20 +1,20 @@
 ---
 title: Why is Write-Verbose not Doing Anything?
 number: 13
-layout: post
 categories: Scripting
 ---
 
 ## Problem:
 I made a script with some functions in it and the built in PowerShell verbose switch is doing absolutely nothing.
-
+{% highlight posh %}
     ./MyScript.ps1 -verbose #I'm having to revert to write host to have a clue what is happening!
-
+{% endhighlight %}
 ## Solution:
 Give PowerShell a chance - it's made it pretty easy for you - just put cmdletbinding attribute above your parameters in any given script.
-
+{% highlight posh %}
     [cmdletbinding()]
     param()
+{% endhighlight %}
 
 Powershell will then give you some free [common parameters](https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters){:target="_blank"} including -verbose.
 

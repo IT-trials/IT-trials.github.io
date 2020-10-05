@@ -1,7 +1,6 @@
 ---
 title: Installing Microsoft User Experience Virtualization (UE-V) 2.1 SP1
 number: 19
-layout: post
 categories: Scripting
 ---
 

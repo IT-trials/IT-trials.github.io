@@ -1,7 +1,6 @@
 ---
 title: Lambda Local Invocation DynamoDB Request Hanging and Eventual "CLR/System.Net.Http.HttpRequestException"
 number: 24
-layout: post
 categories: AWS
 ---
 
@@ -22,4 +21,10 @@ There are several solutions that have alternate merits.  I followed some of the 
 
 1. Point your client at your host IP, e.g. `192.168.1.x` not `localhost`.
 
-2. Connect the docker container to your `"host"` network not the default, `"bridge"` network.  You can do this by adding the following to your launch config: `"sam": {"dockerNetwork" : "host"}`. As per the [AWS Documentation](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/run-debug-sam-app.html#debug-config-ref){:target="_blank"}.
+2. Connect the docker container to your `"host"` network not the default, `"bridge"` network.  You can do this by adding the following to your launch config: 
+
+{% highlight json %}
+"sam": {"dockerNetwork" : "host"}
+{% endhighlight %}
+
+As per the [AWS Documentation](https://docs.aws.amazon.com/toolkit-for-vscode/latest/userguide/run-debug-sam-app.html#debug-config-ref){:target="_blank"}.
