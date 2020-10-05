@@ -2,6 +2,7 @@
 title: DynamoDB database not found "Amazon.DynamoDBv2.Model.ResourceNotFoundException"
 number: 21
 categories: AWS
+redirect_from: /aws/DynamoDB-database-not-found-exception
 ---
 
 ## Problem:

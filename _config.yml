@@ -19,6 +19,9 @@ sass:
 
 theme: minimal-mistakes-jekyll
 
+plugins:   
+  - jekyll-redirect-from
+
 minimal_mistakes_skin: "dark"
 
 author: Craig Chamberlain

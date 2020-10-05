@@ -5,5 +5,6 @@ gem "minimal-mistakes-jekyll"
 
 group :jekyll_plugins do
 gem "kramdown-parser-gfm"
+gem "jekyll-redirect-from"
 end
 

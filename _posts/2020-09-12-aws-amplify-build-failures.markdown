@@ -2,6 +2,7 @@
 title: Amplify Build Errors (Jekyll Static Site)
 number: 23
 categories: AWS
+redirect_from: /aws/AWSAmplify-build-failures
 ---
 
 ## Problem:

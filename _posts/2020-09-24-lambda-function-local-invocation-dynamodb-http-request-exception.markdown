@@ -2,6 +2,7 @@
 title: Lambda Local Invocation DynamoDB Request Hanging and Eventual "CLR/System.Net.Http.HttpRequestException"
 number: 24
 categories: AWS
+redirect_from: /aws/Lambda-Functio-Local-Invocation-DynamoDB-HttpRequestException
 ---
 
 ## Problem:

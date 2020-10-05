@@ -2,6 +2,7 @@
 title: DynamoDB Reserved Keyword "ValidationException"
 number: 22
 categories: AWS
+redirect_from: /aws/DynamoDB-reserved-keyword-validation-exception
 ---
 
 ## Problem:

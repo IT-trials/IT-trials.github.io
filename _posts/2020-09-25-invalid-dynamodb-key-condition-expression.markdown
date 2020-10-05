@@ -2,6 +2,7 @@
 title: Invalid DynamoDB KeyConditionExpression "ValidationException"
 number: 25
 categories: AWS
+redirect_from: /aws/Invalid-DynamoDB-KeyConditionExpression
 ---
 
 ## Problem:
