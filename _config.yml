@@ -7,7 +7,7 @@ baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://it-trials.github.io" # the base hostname & protocol for your site
 github_username:  it-trials
 
-permalink: /:categories/:title.html #simplify url structure
+permalink: /:categories/:title #simplify url structure
 
 exclude: [Gemfile, Gemfile.lock, README.md, redirect.ps1, docs] # Don't copy these into _site
 
