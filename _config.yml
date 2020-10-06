@@ -52,8 +52,7 @@ defaults:
       type: pages
     values:
       layout: category
-      
-
+      classes: wide
 
 comments:
   provider: "disqus"
