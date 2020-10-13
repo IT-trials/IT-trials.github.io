@@ -6,7 +6,7 @@ categories: Azure
 
 ## Problem:
 
-If you want to fork or even clone a repository that is using [Netlify Large Media](https://docs.netlify.com/large-media/overview/){:target="_blank"} as it's [Git Large File Storage](https://git-lfs.github.com/) provider, the large files may not be available to you.
+If you want to fork or even clone a repository that is using [Netlify Large Media](https://docs.netlify.com/large-media/overview/){:target="_blank"} as it's [Git Large File Storage](https://git-lfs.github.com/){:target="_blank"} provider, the large files may not be available to you.
 
 For example I want to process my some Netlify Large Media assets using gulp to standardise filetype and produce webp images.  I attempted to do this in [Azure DevOps](https://azure.microsoft.com/en-gb/services/devops/){:target="_blank"} and found Netlify's Large Media reluctant to share the binaries with a task runner.
 
