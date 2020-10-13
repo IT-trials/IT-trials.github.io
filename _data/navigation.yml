@@ -2,6 +2,8 @@
 main:
     - title: "AWS"
       url: /aws/
+    - title: "Azure"
+      url: /azure/
     - title: "Group Policy"
       url: /gpo/
     - title: "MS Deployment Toolkit"
