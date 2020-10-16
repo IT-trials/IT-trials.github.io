@@ -2,6 +2,7 @@
 title: Installing PowerShell 5.1
 number: 18
 categories: Scripting
+redirect_from: /scripting/installing-powershell-5.1
 ---
 
 ## Problem:
