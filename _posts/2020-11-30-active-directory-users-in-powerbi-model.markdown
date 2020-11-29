@@ -3,6 +3,7 @@ title: Accessing Active Directory Users in PowerBI Model
 number: 30
 categories: PowerBI
 published: false
+series: PowerBI-AD
 ---
 
 ## Problem:
@@ -40,12 +41,5 @@ It is not obvious what type the users are, if they are disabled, or really any o
 
 Furthermore the data returned is multi-dimensional. To make it more usable we will need to convert into a tabular form, perhaps utilising related tables.
 
-## Related Posts:
 
-I have produced several related posts covering the transformations I made to my import.  
-Your requirements may differ from mine so I have broken it down to make it easier to pick what is useful to you.
-
-- [Transform CN to OU]()
-- [Create OUs Related Table]()
-- [Create ADUserGroups Related Table]()
-- [Create AccountStatus Related Table]()
+{% include other-posts-in-series.html %}

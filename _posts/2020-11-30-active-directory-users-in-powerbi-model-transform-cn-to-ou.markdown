@@ -3,6 +3,7 @@ title: Transform Active Directory User CN to OU in PowerBI Model
 number: 31
 categories: PowerBI
 published: false
+series: PowerBI-AD
 ---
 
 ## Problem:
@@ -101,12 +102,4 @@ However, these accounts seem to be limited to those in built in containers such 
 With Regular Expressions you could do a reverse lookup to check the condition of the previous ````char````
 but I haven't seen this option in PowerQuery.  Comment below if you know better.
 
-## Related Posts:
-
-I have produced several related posts covering the transformations I made to my import.  
-Your requirements may differ from mine so I have broken it down to make it easier to pick what is useful to you.
-
-- [Transform CN to OU]()
-- [Create OUs Related Table]()
-- [Create ADUserGroups Related Table]()
-- [Create AccountStatus Related Table]()
+{% include other-posts-in-series.html %}

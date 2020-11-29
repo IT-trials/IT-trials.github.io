@@ -3,6 +3,7 @@ title: Making OUs More Readable with a Related Table in PowerBI Model
 number: 32
 categories: PowerBI
 published: false
+series: PowerBI-AD
 ---
 
 ## Problem:
@@ -74,12 +75,5 @@ This is really straight forward.  The one thing that might not be ideal is retur
 of the list contained in the ````ou```` object. There may be some instances where the list contains more
 than one item and you want them all or one other than the first.
 
-## Related Posts:
 
-I have produced several related posts covering the transformations I made to my import.  
-Your requirements may differ from mine so I have broken it down to make it easier to pick what is useful to you.
-
-- [Transform CN to OU]()
-- [Create OUs Related Table]()
-- [Create ADUserGroups Related Table]()
-- [Create AccountStatus Related Table]()
+{% include other-posts-in-series.html %}

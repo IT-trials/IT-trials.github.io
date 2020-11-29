@@ -1,0 +1,8 @@
+<h2>Other Posts in the {{page.series}} Series:</h2>
+
+{{ site.data.series[page.series].intro | markdownify }}
+<ul>
+{% for post in site.posts | where: "series", page.series %}
+<li><a href="{{post.url | relative_url }}">Trial #{{post.number}}: {{post.title}}</a></li>
+{% endfor %}
+</ul>

@@ -3,6 +3,7 @@ title: Querying AD Users Group Membership with PowerBI
 number: 33
 categories: PowerBI
 published: false
+series: PowerBI-AD
 ---
 
 ## Problem:
@@ -82,13 +83,4 @@ For example create a table with just two columns, a foreign key such as ````dist
 	</figurecaption>
 </figure>
 
-
-## Related Posts:
-
-I have produced several related posts covering the transformations I made to my import.  
-Your requirements may differ from mine so I have broken it down to make it easier to pick what is useful to you.
-
-- [Transform CN to OU]()
-- [Create OUs Related Table]()
-- [Create ADUserGroups Related Table]()
-- [Create AccountStatus Related Table]()
+{% include other-posts-in-series.html %}
