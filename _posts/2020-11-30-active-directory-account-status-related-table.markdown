@@ -6,7 +6,6 @@ series: PowerBI-AD
 ---
 
 ## Problem:
-
 I my previous posts I covered connecting PowerBI to AD and forming and returning user account data.
 
 However, on inspecting the results it is not clear if users are enabled, disabled or in any other given state.  This might be really important if you are attempting to use PowerBi to reconcile HR or other databases to ensure consistency.
