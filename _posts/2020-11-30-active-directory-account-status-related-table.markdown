@@ -2,7 +2,6 @@
 title: AD User Account Status in PowerBI Model
 number: 34
 categories: PowerBI
-published: false
 series: PowerBI-AD
 ---
 
@@ -17,10 +16,10 @@ However, on inspecting the results it is not clear if users are enabled, disable
 The account status is quite readily accessible in the ````userAccountControl```` item of the ````user```` record.
 
 <figure>
-	![]("/assets/images/34/user-account-control.jpg")
-	<figurecaption>
+	<img src="/assets/images/34/user-account-control.jpg"/>
+	<figcaption>
 	Drill into the user column to find the userAccountControl field
-	</figurecaption>
+	</figcaption>
 </figure>
 
 However, userAccountControl is a [bit mask]("https://en.wikipedia.org/wiki/Mask_(computing)") and is not immediately comprehensible.
@@ -34,10 +33,10 @@ Windows OS Hub have published an excellent article on this with a [PowerShell fu
 My first solution was to manually create a table limited to just the values that occur in my active directory, using the above PowerShell function, creating my own a pretty name and a boolean field to say if the account is disabled or enabled.
 
 <figure>
-	![]("/assets/images/34/account-status.jpg")
-	<figurecaption>
+	<img src="/assets/images/34/account-status.jpg"/>
+	<figcaption>
 	Form a many to one relationship between the OU table and the User table
-	</figurecaption>
+	</figcaption>
 </figure>
 
 This works perfectly well but I may have to add further rows as my active directory hosts more account status combinations.
@@ -114,19 +113,19 @@ Table.AddColumn(table1, "DecodedUAC", each DecodeUserAccountControl(_[userAccoun
 
 
 <figure>
-	![]("/assets/images/34/resolved-user-account-control-bit-map.jpg")
-	<figurecaption>
-	A Dynamically Produced Table of All the Required ````userAccountControl```` Values and a human readable representation
-	</figurecaption>
+	<img src="/assets/images/34/resolved-user-account-control-bit-map.jpg"/>
+	<figcaption>
+	A Dynamically Produced Table of All the Required userAccountControl Values and a human readable representation
+	</figcaption>
 </figure>
 
 At this point you may prefer to serialise the lists.  I recommend that you ````Expand to New Rows```` and use this to create a many to many relationship to your user table in PowerBI.
 
 <figure>
-	![]("/assets/images/34/resolved-user-account-control-bit-map-expanded.jpg")
-	<figurecaption>
-	A Dynamically Produced Table of All the Required ````userAccountControl```` Values and a human readable representation
-	</figurecaption>
+	<img src="/assets/images/34/resolved-user-account-control-bit-map-expanded.jpg"/>
+	<figcaption>
+	A dynamically produced table of all the Required userAccountControl values and a human readable representation
+	</figcaption>
 </figure>
 
 

@@ -2,7 +2,8 @@
 
 {{ site.data.series[page.series].intro | markdownify }}
 <ul>
-{% for post in site.posts | where: "series", page.series %}
+{% assign series = site.posts | where: "series", page.series %}
+{% for post in series %}
 <li><a href="{{post.url | relative_url }}">Trial #{{post.number}}: {{post.title}}</a></li>
 {% endfor %}
 </ul>
