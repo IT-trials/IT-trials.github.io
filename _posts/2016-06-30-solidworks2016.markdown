@@ -6,8 +6,7 @@ categories: MDT
 ---
 
 ## Problem:
-
-The silent installer doesn't work from command line
+The silent installer doesn't work from command line.
 
 Forget PDQ deploy/SSCM/MDT task sequence deployment or make it work yourself.
 

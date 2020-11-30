@@ -6,7 +6,6 @@ redirect_from: /aws/Invalid-DynamoDB-KeyConditionExpression
 ---
 
 ## Problem:
-
 If you attempt to use the DynamoDB `KeyConditionExpression` like you might a SQL query, and chain on several clauses with the `and` keyword, you may experience one of the two following error messages in the a `Amazon.DynamoDBv2.AmazonDynamoDBException` `"ValidationException"`
 
 - `"Conditions can be of length 1 or 2 only"`

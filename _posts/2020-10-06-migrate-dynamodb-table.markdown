@@ -5,7 +5,6 @@ categories: AWS
 ---
 
 ## Problem:
-
 You may need a method to migrate in and out of AWS if you:
 
 - Develop a dataset locally and want to move to the cloud 

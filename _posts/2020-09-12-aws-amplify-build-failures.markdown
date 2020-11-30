@@ -6,7 +6,6 @@ redirect_from: /aws/AWSAmplify-build-failures
 ---
 
 ## Problem:
-
 If you have been developing against up-to-date versions of Jekyll, Ruby or Bundle, you may get some version issues when you first add a site to AWS Amplify.
 
     2020-09-11T17:36:19.251Z [WARNING]: Warning: the running version of Bundler (2.0.1) is older than the version that created the lockfile (2.1.4). We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.

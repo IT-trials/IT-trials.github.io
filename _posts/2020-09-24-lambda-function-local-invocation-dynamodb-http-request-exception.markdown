@@ -6,7 +6,6 @@ redirect_from: /aws/Lambda-Functio-Local-Invocation-DynamoDB-HttpRequestExceptio
 ---
 
 ## Problem:
-
 When attempting to query or interact with a local DynamoDB instance from a local invocation of a Lambda Function, the request hangs for a considerable period and then raises an
 `CLR/System.Net.Http.HttpRequestException`.  With the message: `"Cannot assign requested address"`
 
