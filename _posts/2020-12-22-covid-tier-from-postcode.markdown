@@ -49,7 +49,7 @@ As my address list contained duplicate postcodes, I first made a list of unique 
 
 {% gist 500496f9424b42a32153e591f6e577b8 %}
 
- Another advantage is that you can investigate missing values without iterating over the entire contents
+ Another advantage is that you can investigate missing values without iterating over the entire set of postcodes.
 
 {% highlight powershell %}
 $problemPostCode = $dict.GetEnumerator() |? {$_.Value -eq $null} 
@@ -58,3 +58,5 @@ $problemTier = $dict.GetEnumerator() |? {$_.Value.covidTier -eq $null}
 # Attempt to correct missing values
 $problemTier |% {$dict[$_.Key] = .\Get-CoronovirusGovData.ps1 $_.Key }
 {% endhighlight %}
+
+There are other data points on the page that could be scraped.  However, at this point we have a geographic area for each postcode.  We would be far better served using this to query the API and obtain the structured data directly.
