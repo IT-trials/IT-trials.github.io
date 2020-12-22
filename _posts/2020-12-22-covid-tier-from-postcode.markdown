@@ -2,7 +2,7 @@
 title: Querying the gov.uk website for COVID-19 Tier by PostCode
 number: 35
 categories: Scripting
-published: false
+published: true
 ---
 
 ## Problem:
@@ -10,33 +10,32 @@ The UK Government has a special [COVID-19 Data Website](https://coronavirus.data
 
 It has a handy tool to pull up local information given a particular.
 
-<figure>
-	![]("/assets/images/35/search-by-postcode.jpg")
-	<figurecaption>
-	Look up a COVID-19 summary by postcode
-	</figurecaption>
-</figure>
+{% include figure 
+	image_path="/assets/images/35/search-by-postcode.jpg" 
+	alt="closeup of tool on the https://coronavirus.data.gov.uk/ website" 
+	caption="Look up a COVID-19 summary by postcode" 
+%}
 
-<figure>
-	![]("/assets/images/35/summary.jpg")
-	<figurecaption>
-	You are presented with a custom dashboard for the region the postcode falls within 
-	</figurecaption>
-</figure>
+{% include figure 
+	image_path="/assets/images/35/summary.jpg" 
+	alt="closeup of custom dashboard on the https://coronavirus.data.gov.uk/ website" 
+	caption="You are presented with a custom dashboard for the region the postcode falls within " 
+%}
 
-However, if you want to look up a collection of postcodes this process might be time consuming. There is an API and [docs provided](https://coronavirus.data.gov.uk/details/developers-guide).  However, I could not see an endpoint that took a postcode.
+However, if you want to look up a collection of postcodes this process might be time consuming. There is an API and [docs provided](https://coronavirus.data.gov.uk/details/developers-guide){:target="_blank"}.  However, I could not see an endpoint that took a postcode.
 
 
 ## Solution:
 
 Fortunately, the custom postcode dashboards are accessible by a query string.  So we can work through a set of postcodes by making a series of get requests.
 
-<figure>
-	![]("/assets/images/35/query-string.jpg")
-	<figurecaption>
-	Note the end <code>?postcode=DL10+6DN</code>
-	</figurecaption>
-</figure>
+{% include figure 
+	image_path="/assets/images/35/query-string.jpg"
+	alt="closeup of custom dashboard on the https://coronavirus.data.gov.uk/ website" 
+	caption="Note the end <code>?postcode=DL10+6DN</code>" 
+%}
+
+I put together a minimal viable powershell script.  I will not explain every step here but it uses the ````Invoke-WebRequest```` ````Cmcmdlet```` to ````GET```` and parse the webpage, drill into the required page elements and interpret the human readable text into structured data.  There is quite a lot of Regex for validation and data scraping which I plan to cover in another post.
 
 {% gist 24be9c7ffb28a0c7f2b5cdaaed87c89a %}
 
