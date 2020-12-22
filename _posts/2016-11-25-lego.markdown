@@ -23,7 +23,7 @@ WeDo is a little harder.  If fails when using the following
 
 I found that this was because the main installer triggers another driver installer that throws two UAC confirmation boxes.
 
-I unpacked the main installer using [innounp](http://innounp.sourceforge.net/) and within the extracted files found the following driver installers:  
+I unpacked the main installer using [innounp](http://innounp.sourceforge.net/){:target="_blank"} and within the extracted files found the following driver installers:  
 
 ![]({{ site.github.url }}/assets/images/8/drivers.png)
 

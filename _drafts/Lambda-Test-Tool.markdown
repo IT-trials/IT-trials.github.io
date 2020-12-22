@@ -6,7 +6,7 @@ categories: AWS
 
 ## Problem:
 
-https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool
+(https://github.com/aws/aws-lambda-dotnet/tree/master/Tools/LambdaTestTool){:target="_blank"}
 
 {
     "version": "0.2.0",

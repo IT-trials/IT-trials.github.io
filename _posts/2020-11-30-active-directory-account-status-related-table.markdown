@@ -21,13 +21,13 @@ The account status is quite readily accessible in the ````userAccountControl````
 	</figcaption>
 </figure>
 
-However, userAccountControl is a [bit mask]("https://en.wikipedia.org/wiki/Mask_(computing)") and is not immediately comprehensible.
+However, userAccountControl is a [bit mask]("https://en.wikipedia.org/wiki/Mask_(computing)"){:target="_blank"} and is not immediately comprehensible.
 
 Some posts provide a simple explanation that 512 is enabled and 514 is disabled.  This is true, but not the complete story. This value actually encodes boolean values for 22 potentially independent options. Therefore there are 2^22 or 4,194,304 possible permutations of this number half of which are disabled, half of which are enabled.
 
 Given the ponderous number of permutations and the relative unlikely occurrence of most of them it makes much more sense to extract meaning from the result using logic than using a related table.
 
-Windows OS Hub have published an excellent article on this with a [PowerShell function]("http://woshub.com/decoding-ad-useraccountcontrol-value/") [PowerShell function]("http://woshub.com/decoding-ad-useraccountcontrol-value/")
+Windows OS Hub have published an excellent article on this with a [PowerShell function]("http://woshub.com/decoding-ad-useraccountcontrol-value/"){:target="_blank"} [PowerShell function]("http://woshub.com/decoding-ad-useraccountcontrol-value/"){:target="_blank"}
 
 My first solution was to manually create a table limited to just the values that occur in my active directory, using the above PowerShell function, creating my own a pretty name and a boolean field to say if the account is disabled or enabled.
 

@@ -10,7 +10,7 @@ The Sibelius installer doesn't initially seem to have a silent install option.  
 In our environment we have a manual install process that includes running an installer, an update installer, a plugin installer, a ton of files to copy and a registry mod. to make.  I want to package this as a silent install process to run from PDQ deploy and as an application in a MDT build sequence.
 
 ## Solution
-The Sibelius installer does in fact have a silent install option, [Avid have documented this with hints for different versions](http://avid.force.com/pkb/articles/en_US/how_to/en396971).  However, I've found that perquisites are causing restarts and prompts.
+The Sibelius installer does in fact have a silent install option, [Avid have documented this with hints for different versions](http://avid.force.com/pkb/articles/en_US/how_to/en396971){:target="_blank"}.  However, I've found that perquisites are causing restarts and prompts.
 
 Powershell is ace at copying files (that don't have too long filenames) and it can do registry modifications too.
 

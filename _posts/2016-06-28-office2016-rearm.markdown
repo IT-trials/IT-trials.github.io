@@ -15,7 +15,7 @@ Office is given a unique ID (CMID) during installation.  This is being copied on
 
 Office has a very convenient utility "OSPPREARM.EXE" designed to remove this CMID.
 
-MDT 2013 Update 1 has an Office 2010 "Rearm" built into the LTISysprep.wsf script.  However this script does not support Microsoft Office 2013 or greater and these versions of Office will not be "Rearmed prior to capture".  This [article from Scott Ladewig](http://www.ladewig.com/archives/2014/01/30/43892-adding_office_2013_rearm_to_ltisysprepwsf_in_mdt.html) covers this well.
+MDT 2013 Update 1 has an Office 2010 "Rearm" built into the LTISysprep.wsf script.  However this script does not support Microsoft Office 2013 or greater and these versions of Office will not be "Rearmed prior to capture".  This [article from Scott Ladewig](http://www.ladewig.com/archives/2014/01/30/43892-adding_office_2013_rearm_to_ltisysprepwsf_in_mdt.html){:target="_blank"} covers this well.
 
 ## Solution:
 1. Update to MDT 2013 Update 2 or higher as Microsoft have improved Office Rearm support.
