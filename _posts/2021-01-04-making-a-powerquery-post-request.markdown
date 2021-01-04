@@ -1,5 +1,5 @@
 ---
-title:Making a PowerQuery (M) Http POST Request
+title: Making a PowerQuery (M) Http POST Request
 number: 36
 categories: powerbi
 published: true
@@ -17,7 +17,6 @@ I talked about this process briefly in a [previous blog](/powerbi/iterating-over
 
 However, some ````REST```` or other data APIs require a ````POST```` request for example a request with a ````JSON```` or ````XML```` body.
 
-There is an option to add header information in the new ````Web Source```` dialogue box.
 
 ## Solution:
 
@@ -26,14 +25,14 @@ I found a [recommendation on the PowerBi Community page](https://community.power
 It is worth referring to the [````Web.Conents()````](https://docs.microsoft.com/en-us/powerquery-m/web-contents){:target="_blank"} API to understand this. 
 
 {% include figure 
-	image_path="/assets/images/36/web-content-api.jpg"
+	image_path="/assets/images/36/web-contents-api.jpg"
 	alt="screenshot of the official docs of the Web.Conents Function" 
 %}
 
-As we can see ````Web.Conents```` has an optional ````Options```` parameter of record type.  There are various options we can set here including the Header which itself a record type. Although it doesn't say here, the Content parameter is of binary type, as explained by [Imke Feldmann](https://de.linkedin.com/in/imkefeldmann){:target="_blank"} at the [BICCOUNTANT](https://www.thebiccountant.com/2018/06/05/easy-post-requests-with-power-bi-and-power-query-using-json-fromvalue/){:target="_blank"}.  Therefore you can turn an arbitrary text value into binary with ````Text.ToBinary()```` or produce a JSON or XML response from table data.
+As we can see ````Web.Conents```` has an optional ````Options```` parameter of record type.  There are various options we can set here including the Header which itself a record type. Although it doesn't say here, the Content parameter is of binary type, as explained by [Imke Feldmann](https://de.linkedin.com/in/imkefeldmann){:target="_blank"} at the [BICCOUNTANT](https://www.thebiccountant.com/2018/06/05/easy-post-requests-with-power-bi-and-power-query-using-json-fromvalue/){:target="_blank"}.  Therefore you must turn an arbitrary text value into binary with ````Text.ToBinary()```` or produce a JSON or XML response from table data.
 
 
-Here is a basic an example function that performs a request:
+Here is a basic an example function that performs a ````POST```` request with an XML body that includes a variable provided by a function parameter:
 
 {% highlight powerquery %}
 let GetReports = (Id as number) =>
