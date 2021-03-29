@@ -46,7 +46,7 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
-    kramdown (2.3.0)
+    kramdown (2.3.1)
       rexml
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
@@ -83,7 +83,6 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    wdm (0.1.1)
 
 PLATFORMS
   ruby
@@ -94,7 +93,6 @@ DEPENDENCIES
   jekyll-redirect-from
   kramdown-parser-gfm
   minimal-mistakes-jekyll
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.2
