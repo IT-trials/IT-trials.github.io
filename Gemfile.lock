@@ -72,7 +72,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rexml (3.2.4)
+    rexml (3.2.5)
     rouge (3.23.0)
     safe_yaml (1.0.5)
     sass (3.7.4)
@@ -83,7 +83,6 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    wdm (0.1.1)
 
 PLATFORMS
   ruby
@@ -94,7 +93,6 @@ DEPENDENCIES
   jekyll-redirect-from
   kramdown-parser-gfm
   minimal-mistakes-jekyll
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.2
