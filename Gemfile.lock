@@ -1,7 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    addressable (2.7.0)
+    addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
     colorator (1.1.0)
     concurrent-ruby (1.1.7)
@@ -83,7 +83,6 @@ GEM
     sawyer (0.8.2)
       addressable (>= 2.3.5)
       faraday (> 0.8, < 2.0)
-    wdm (0.1.1)
 
 PLATFORMS
   ruby
@@ -94,7 +93,6 @@ DEPENDENCIES
   jekyll-redirect-from
   kramdown-parser-gfm
   minimal-mistakes-jekyll
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    2.2.2
