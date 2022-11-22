@@ -48,7 +48,7 @@ Choose the Appropriate Tab e.g. __GCSE (9-1) Preds__ and then select __Generate 
 You can use the .NET  ````XML```` type to get a structured object from a valid XML document e.g. If you are working with a huge file you could be more careful and scan through a memory stream for the content of interest.
 
 {% highlight posh %}
-$import = [XML](Get-Content ".\PredIE9XML_00069772.xml")
+$import = [XML](Get-Content ".\PredIE9XML_000XXXXX.xml")
 {% endhighlight %}
 
 If we explore the data we can traverse to a Node containing all of our predicted results.
