@@ -216,13 +216,13 @@ var store = [{
         "teaser": null
       },{
         "title": "Parsing and Transforming ALIS grade export data",
-        "excerpt":"Problem: At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools. At times this information was simply input by hand into forms in the MIS. I decided to work out how to parse exports so...","categories": ["scripting"],
+        "excerpt":"Problem: At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools. At times this information was simply input by hand into forms in the MIS. I decided to work out how to parse exports so...","categories": ["Scripting"],
         "tags": [],
         "url": "/scripting/parsing-alis-grade-exports",
         "teaser": null
       },{
         "title": "Parsing and Transforming MidYIS grade export data",
-        "excerpt":"Problem: At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools. At times this information was simply input by hand into forms in the MIS. I decided to work out how to parse exports so...","categories": ["scripting"],
+        "excerpt":"Problem: At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools. At times this information was simply input by hand into forms in the MIS. I decided to work out how to parse exports so...","categories": ["Scripting"],
         "tags": [],
         "url": "/scripting/parsing-midyis-grade-exports",
         "teaser": null

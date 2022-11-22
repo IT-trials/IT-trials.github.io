@@ -1,6 +1,6 @@
 ---
 title: Parsing and Transforming ALIS grade export data
-categories: scripting
+categories: Scripting
 number: 37
 published: true
 ---

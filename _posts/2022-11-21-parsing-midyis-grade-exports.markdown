@@ -1,7 +1,7 @@
 ---
 title: Parsing and Transforming MidYIS grade export data
 number: 38
-categories: scripting
+categories: Scripting
 published: true
 ---
 

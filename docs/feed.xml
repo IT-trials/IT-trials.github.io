@@ -6,8 +6,8 @@
 </description>
     <link>https://it-trials.craigchamberlain.it/</link>
     <atom:link href="https://it-trials.craigchamberlain.it/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 Nov 2022 12:52:38 +0000</pubDate>
-    <lastBuildDate>Tue, 22 Nov 2022 12:52:38 +0000</lastBuildDate>
+    <pubDate>Tue, 22 Nov 2022 13:01:27 +0000</pubDate>
+    <lastBuildDate>Tue, 22 Nov 2022 13:01:27 +0000</lastBuildDate>
     <generator>Jekyll v4.3.1</generator>
     
       <item>
@@ -157,7 +157,7 @@
         <guid isPermaLink="true">https://it-trials.craigchamberlain.it/scripting/parsing-midyis-grade-exports</guid>
         
         
-        <category>scripting</category>
+        <category>Scripting</category>
         
       </item>
     
@@ -228,7 +228,7 @@
         <guid isPermaLink="true">https://it-trials.craigchamberlain.it/scripting/parsing-alis-grade-exports</guid>
         
         
-        <category>scripting</category>
+        <category>Scripting</category>
         
       </item>
     
