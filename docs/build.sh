@@ -1,3 +1,2 @@
-rm ./docs/*
-bundle exec jekyll build ./docs
+bundle exec jekyll build --destination ./docs
 touch ./docs/.nojekyll
