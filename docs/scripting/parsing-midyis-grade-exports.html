@@ -1,0 +1,762 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Parsing and Transforming MidYIS grade export data - IT Trials</title>
+<meta name="description" content="Problem: At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a partner article on the ALIS baseline system.">
+
+
+  <meta name="author" content="Craig Chamberlain">
+  
+  <meta property="article:author" content="Craig Chamberlain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="IT Trials">
+<meta property="og:title" content="Parsing and Transforming MidYIS grade export data">
+<meta property="og:url" content="https://it-trials.craigchamberlain.it/scripting/parsing-midyis-grade-exports">
+
+
+  <meta property="og:description" content="Problem: At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a partner article on the ALIS baseline system.">
+
+
+
+  <meta property="og:image" content="https://it-trials.craigchamberlain.it/assets/images/it-trials.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2022-11-21T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://it-trials.craigchamberlain.it/scripting/parsing-midyis-grade-exports">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Craig Chamberlain",
+      "url": "https://it-trials.craigchamberlain.it/",
+      "sameAs": ["https://twitter.com/hagatorn","https://www.linkedin.com/in/craig-chamberlain-61037149","https://stackoverflow.com/users/3822155/craig-c"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="IT Trials Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          IT Trials
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/aws/">AWS</a>
+            </li><li class="masthead__menu-item">
+              <a href="/azure/">Azure</a>
+            </li><li class="masthead__menu-item">
+              <a href="/gpo/">Group Policy</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mdt/">MS Deployment Toolkit</a>
+            </li><li class="masthead__menu-item">
+              <a href="/scripting/">Scripting</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/authors/1.jpg" alt="Craig Chamberlain" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Craig Chamberlain</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:craig@craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/hagatorn" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://stackoverflow.com/users/3822155/craig-c" rel="nofollow noopener noreferrer"><i class="fab fa-stack-overflow" aria-hidden="true"></i><span class="label">Stack Overflow</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/craig-chamberlain-61037149" rel="nofollow noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Parsing and Transforming MidYIS grade export data">
+    <meta itemprop="description" content="Problem:At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a partner article on the ALIS baseline system.">
+    <meta itemprop="datePublished" content="2022-11-21T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Trial #38: Parsing and Transforming MidYIS grade export data
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="problem">Problem:</h2>
+<p>At the school at which I work, we had no way of importing our baseline <a href="https://www.cem.org/midyis">MidYIS</a> scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a <a href="/scripting/parsing-alis-grade-exports">partner article on the ALIS baseline system</a>.</p>
+
+<h2 id="solution">Solution:</h2>
+<p>I will add an appendix with <a href="#data-acquisition">instructions on how I acquired the data</a> but will dive straight into the implementation of how I chose to parse and transform</p>
+
+<p>Once you have your file for example <strong>MidYIS Year9 Predictions Feedback.xls</strong> you may need to unblock a windows security lock and enable content:</p>
+
+<figure>
+	<img src="/assets/images/38/unblock.png" alt="Unblock" />
+	<figcaption>
+	Unblock
+	</figcaption>
+</figure>
+
+<figure>
+	<img src="/assets/images/38/enable-content.png" alt="Enable Content" />
+	<figcaption>
+	Enable Content
+	</figcaption>
+</figure>
+
+<p>Choose the Appropriate Tab e.g. <strong>GCSE (9-1) Preds</strong> and then select <strong>Generate File for MIS Import</strong>.</p>
+
+<figure>
+	<img src="/assets/images/38/navigate-tab.png" alt="Choose the Appropriate Tab" />
+	<figcaption>
+	Choose the Appropriate Tab
+	</figcaption>
+</figure>
+
+<figure>
+	<img src="/assets/images/38/generate-xml.png" alt="Generate XML" />
+	<figcaption>
+	Generate XML
+	</figcaption>
+</figure>
+
+<h3 id="interpreting-the-file-with-powershell">Interpreting the file with PowerShell</h3>
+
+<p>You can use the .NET  <code class="language-plaintext highlighter-rouge">XML</code> type to get a structured object from a valid XML document e.g. If you are working with a huge file you could be more careful and scan through a memory stream for the content of interest.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$import</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">XML</span><span class="p">](</span><span class="n">Get-Content</span><span class="w"> </span><span class="s2">".\PredIE9XML_00069772.xml"</span><span class="p">)</span></code></pre></figure>
+
+<p>If we explore the data we can traverse to a Node containing all of our predicted results.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$import</span><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"ResultNode"</span><span class="p">]</span></code></pre></figure>
+
+<p>A single child Node of this contains all the data associated to a particular pupil in the result node.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$import</span><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"ResultNode"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"Result"</span><span class="p">]</span></code></pre></figure>
+
+<p>However, many of the fields have values that I wish to tidy up.  Chief amongst this is the subject title which is normalised across another node which must be referenced by a foreign key, the <strong>AspectExternalId</strong>.</p>
+
+<p>The subjects are stored in the <strong>AspectNode</strong> and the content of a single subject in the child node <strong>Aspect</strong>.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"AspectNode"</span><span class="p">]</span><span class="w">
+</span><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"AspectNode"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"Aspect"</span><span class="p">]</span></code></pre></figure>
+
+<p>One could find the relevant Aspect using a <code class="language-plaintext highlighter-rouge">Where-Object</code> but this is inefficient and will require excessive enumeration.</p>
+
+<p>A more efficient way of doing this is to enumerate the Aspects once and assemble a HashTable table keyed on the primary key.</p>
+
+<p>I take the opportunity while doing this of cleaning the Title too which is prefixed with the text “GCSE 9-1 “ and suffixed with the text “ I Year9 Pred” e.g. “GCSE 9-1 Mathematics I Year9 Pred”.  I strip this out with a little regex.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+            </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Name"</span><span class="p">;</span><span class="w"> 
+            </span><span class="nx">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> 
+                </span><span class="kr">if</span><span class="p">(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">Name</span><span class="w"> </span><span class="o">-Match</span><span class="w"> </span><span class="s2">"GCSE 9-1 (?&lt;Subject&gt;[a-zA-Z ]+) I Year9 Pred"</span><span class="p">){</span><span class="w">
+                    </span><span class="bp">$Matches</span><span class="o">.</span><span class="nf">Subject</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+
+</span><span class="nv">$subjectHash</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{}</span><span class="w">
+
+</span><span class="nv">$import</span><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"AspectNode"</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> 
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nt">-ExpandProperty</span><span class="w"> </span><span class="s2">"Aspect"</span><span class="w"> </span><span class="o">|</span><span class="w"> 
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nt">-Property</span><span class="w"> </span><span class="nv">$Name</span><span class="p">,</span><span class="w"> </span><span class="nx">ExternalId</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nv">$subjectHash</span><span class="o">.</span><span class="nf">Add</span><span class="p">(</span><span class="bp">$_</span><span class="o">.</span><span class="nf">ExternalId</span><span class="p">,</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Name</span><span class="p">)</span><span class="w">
+    </span><span class="p">}</span></code></pre></figure>
+
+<p>We can now iterate over the pupils’ results forming up the data in a clean and more friendly format.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$subjectFromId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+    </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Subject"</span><span class="p">;</span><span class="w">
+    </span><span class="nx">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nv">$subjectHash</span><span class="p">[</span><span class="bp">$_</span><span class="o">.</span><span class="nf">AspectExternalId</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="nv">$Forename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+    </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Forename"</span><span class="p">;</span><span class="w">
+    </span><span class="nx">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Forename</span><span class="o">.</span><span class="nf">Trim</span><span class="p">()</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="nv">$Surname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+    </span><span class="nx">Name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Surname"</span><span class="p">;</span><span class="w">
+    </span><span class="nx">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Surname</span><span class="o">.</span><span class="nf">Trim</span><span class="p">()</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="nv">$Attainment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="nx">Name</span><span class="o">=</span><span class="s2">"Attainment"</span><span class="p">;</span><span class="w"> </span><span class="nx">Expression</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="s2">"ResultValue"</span><span class="p">}}</span><span class="w">
+
+</span><span class="nv">$data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$import</span><span class="p">[</span><span class="s2">"ResultFile"</span><span class="p">][</span><span class="s2">"ResultNode"</span><span class="p">]</span><span class="w"> </span><span class="o">|</span><span class="w"> 
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nt">-ExpandProperty</span><span class="w"> </span><span class="s2">"Result"</span><span class="w"> </span><span class="o">|</span><span class="w">
+    </span><span class="n">Select-Object</span><span class="w"> </span><span class="nt">-Property</span><span class="w"> </span><span class="nx">DOB</span><span class="p">,</span><span class="w"> </span><span class="nv">$Forename</span><span class="p">,</span><span class="w"> </span><span class="nv">$Surname</span><span class="p">,</span><span class="w"> </span><span class="nx">Gender</span><span class="p">,</span><span class="w"> </span><span class="nv">$subjectFromId</span><span class="p">,</span><span class="w"> </span><span class="nv">$Attainment</span><span class="w"> </span></code></pre></figure>
+
+<p>The data can now be exported onto a JSON file or flattened into a csv or even back into XML.  However, before I export I needed to add a foreign key to match the pupils with our MIS and custom reporting system.</p>
+
+<p>If I cover this in another article I shall post a link here.</p>
+
+<h2 id="data-acquisition">Acquire Data from CEM</h2>
+
+<p>Head over to <em>Cambridge University Press</em> &amp; <em>Assessment’s Centre for Evaluation Monitoring</em> and log into the <a href="https://css.cemcentre.org/SecondaryPlusNet/Login.aspx">MidYIS</a> portal using your school’s credentials.</p>
+
+<p>Drill down into the <strong>Reports -&gt; Data and Reports</strong> page</p>
+
+<figure>
+	<img src="/assets/images/38/data-and-reports.png" alt="Navigate to Original Excel/PDF Reports" />
+	<figcaption>
+	Navigate to Original Excel/PDF Reports
+	</figcaption>
+</figure>
+
+<p>Drill down into <strong>Original Excel/PDF Reports</strong> and download your file.</p>
+
+<figure>
+	<img src="/assets/images/38/download.png" alt="Download" />
+	<figcaption>
+	Download
+	</figcaption>
+</figure>
+
+<p>For example I use the <strong>Independent Schools’ Predictions and Chances Graphs (including MIS import files)</strong> you might use a similar one.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Parsing+and+Transforming+MidYIS+grade+export+data%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fparsing-midyis-grade-exports" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fparsing-midyis-grade-exports" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fparsing-midyis-grade-exports" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/scripting/parsing-alis-grade-exports" class="pagination--pager" title="Parsing and Transforming ALIS grade export data
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-alis-grade-exports" rel="permalink">Trial #37: Parsing and Transforming ALIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools.  At times this inf...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/powerbi/making-a-powerquery-post-request" rel="permalink">Trial #36: Making a PowerQuery (M) Http POST Request
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-04T00:00:00+00:00">January 4, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/covid-tier-from-postcode" rel="permalink">Trial #35: Querying the gov.uk website for COVID-19 Tier by PostCode
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T00:00:00+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+The UK Government has a special COVID-19 Data Website.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/powerbi/active-directory-account-status-related-table" rel="permalink">Trial #34: AD User Account Status in PowerBI Model
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-11-30T00:00:00+00:00">November 30, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+I my previous posts I covered connecting PowerBI to AD and forming and returning user account data.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://it-trials.craigchamberlain.it/scripting/parsing-midyis-grade-exports";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/scripting/parsing-midyis-grade-exports"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ittrials.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,675 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Querying the gov.uk website for COVID-19 Tier by PostCode - IT Trials</title>
+<meta name="description" content="Problem: The UK Government has a special COVID-19 Data Website.">
+
+
+  <meta name="author" content="Craig Chamberlain">
+  
+  <meta property="article:author" content="Craig Chamberlain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="IT Trials">
+<meta property="og:title" content="Querying the gov.uk website for COVID-19 Tier by PostCode">
+<meta property="og:url" content="https://it-trials.craigchamberlain.it/scripting/covid-tier-from-postcode">
+
+
+  <meta property="og:description" content="Problem: The UK Government has a special COVID-19 Data Website.">
+
+
+
+  <meta property="og:image" content="https://it-trials.craigchamberlain.it/assets/images/it-trials.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2020-12-22T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://it-trials.craigchamberlain.it/scripting/covid-tier-from-postcode">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Craig Chamberlain",
+      "url": "https://it-trials.craigchamberlain.it/",
+      "sameAs": ["https://twitter.com/hagatorn","https://www.linkedin.com/in/craig-chamberlain-61037149","https://stackoverflow.com/users/3822155/craig-c"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="IT Trials Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          IT Trials
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/aws/">AWS</a>
+            </li><li class="masthead__menu-item">
+              <a href="/azure/">Azure</a>
+            </li><li class="masthead__menu-item">
+              <a href="/gpo/">Group Policy</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mdt/">MS Deployment Toolkit</a>
+            </li><li class="masthead__menu-item">
+              <a href="/scripting/">Scripting</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/authors/1.jpg" alt="Craig Chamberlain" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Craig Chamberlain</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:craig@craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/hagatorn" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://stackoverflow.com/users/3822155/craig-c" rel="nofollow noopener noreferrer"><i class="fab fa-stack-overflow" aria-hidden="true"></i><span class="label">Stack Overflow</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/craig-chamberlain-61037149" rel="nofollow noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Querying the gov.uk website for COVID-19 Tier by PostCode">
+    <meta itemprop="description" content="Problem:The UK Government has a special COVID-19 Data Website.">
+    <meta itemprop="datePublished" content="2020-12-22T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Trial #35: Querying the gov.uk website for COVID-19 Tier by PostCode
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T00:00:00+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="problem">Problem:</h2>
+<p>The UK Government has a special <a href="https://coronavirus.data.gov.uk/">COVID-19 Data Website</a>.</p>
+
+<p>It has a handy tool to pull up local information given a particular.</p>
+
+<figure class="">
+  <img src="/assets/images/35/search-by-postcode.jpg" alt="closeup of tool on the https://coronavirus.data.gov.uk/ website" /><figcaption>
+      Look up a COVID-19 summary by postcode
+
+    </figcaption></figure>
+
+<figure class="">
+  <img src="/assets/images/35/summary.jpg" alt="closeup of custom dashboard on the https://coronavirus.data.gov.uk/ website" /><figcaption>
+      You are presented with a custom dashboard for the region the postcode falls within
+
+    </figcaption></figure>
+
+<p>However, if you want to look up a collection of postcodes this process might be time consuming. There is an API and <a href="https://coronavirus.data.gov.uk/details/developers-guide" target="_blank">docs provided</a>.  However, I could not see an endpoint that took a postcode.</p>
+
+<h2 id="solution">Solution:</h2>
+
+<p>Fortunately, the custom postcode dashboards are accessible by a query string.  So we can work through a set of postcodes by making a series of get requests.</p>
+
+<figure class="">
+  <img src="/assets/images/35/query-string.jpg" alt="closeup of custom dashboard on the https://coronavirus.data.gov.uk/ website" /><figcaption>
+      Note the end <code>?postcode=DL10+6DN</code>
+
+    </figcaption></figure>
+
+<p>I put together a minimal viable powershell script.  I will not explain every step here but it uses the <code class="language-plaintext highlighter-rouge">Invoke-WebRequest</code> <code class="language-plaintext highlighter-rouge">Cmcmdlet</code> to <code class="language-plaintext highlighter-rouge">GET</code> and parse the webpage, drill into the required page elements and interpret the human readable text into structured data.  There is quite a lot of Regex for validation and data scraping which I plan to cover in another post.</p>
+
+<noscript><pre>400: Invalid request</pre></noscript>
+<script src="https://gist.github.com/24be9c7ffb28a0c7f2b5cdaaed87c89a.js"> </script>
+
+<h2 id="pitfalls">Pitfalls:</h2>
+
+<p>Invoke-WebRequest and the automatic parser are not especially quick or optimised.  For heavy use it would be better to write a custom tool using a common <code class="language-plaintext highlighter-rouge">.NET HttpClient</code> with parallel execution and an optimised scraper.</p>
+
+<p>As my address list contained duplicate postcodes, I first made a list of unique postcodes and then constructed a <code class="language-plaintext highlighter-rouge">Hashtable</code> with the results of my above script per postcode.  I then join this <code class="language-plaintext highlighter-rouge">Hashtable</code> to the original set to avoid repeated lookups of the same postcode.</p>
+
+<noscript><pre>400: Invalid request</pre></noscript>
+<script src="https://gist.github.com/500496f9424b42a32153e591f6e577b8.js"> </script>
+
+<p>Another advantage is that you can investigate missing values without iterating over the entire set of postcodes.</p>
+
+<figure class="highlight"><pre><code class="language-powershell" data-lang="powershell"><span class="nv">$problemPostCode</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$dict</span><span class="o">.</span><span class="nf">GetEnumerator</span><span class="p">()</span><span class="w"> </span><span class="o">|</span><span class="nf">?</span><span class="w"> </span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">Value</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="bp">$null</span><span class="p">}</span><span class="w"> 
+</span><span class="nv">$problemTier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$dict</span><span class="o">.</span><span class="nf">GetEnumerator</span><span class="p">()</span><span class="w"> </span><span class="o">|</span><span class="nf">?</span><span class="w"> </span><span class="p">{</span><span class="bp">$_</span><span class="o">.</span><span class="nf">Value</span><span class="o">.</span><span class="nf">covidTier</span><span class="w"> </span><span class="o">-eq</span><span class="w"> </span><span class="bp">$null</span><span class="p">}</span><span class="w"> 
+
+</span><span class="c"># Attempt to correct missing values</span><span class="w">
+</span><span class="nv">$problemTier</span><span class="w"> </span><span class="o">|%</span><span class="w"> </span><span class="p">{</span><span class="nv">$dict</span><span class="p">[</span><span class="bp">$_</span><span class="o">.</span><span class="nf">Key</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">.</span><span class="n">\Get-CoronovirusGovData.ps1</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Key</span><span class="w"> </span><span class="p">}</span></code></pre></figure>
+
+<p>There are other data points on the page that could be scraped.  However, at this point we have a geographic area for each postcode.  We would be far better served using this to query the API and obtain the structured data directly.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2020-12-22T00:00:00+00:00">December 22, 2020</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Querying+the+gov.uk+website+for+COVID-19+Tier+by+PostCode%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fcovid-tier-from-postcode" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fcovid-tier-from-postcode" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fcovid-tier-from-postcode" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/powerbi/active-directory-account-status-related-table" class="pagination--pager" title="AD User Account Status in PowerBI Model
+">Previous</a>
+    
+    
+      <a href="/powerbi/making-a-powerquery-post-request" class="pagination--pager" title="Making a PowerQuery (M) Http POST Request
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-midyis-grade-exports" rel="permalink">Trial #38: Parsing and Transforming MidYIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this i...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-alis-grade-exports" rel="permalink">Trial #37: Parsing and Transforming ALIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools.  At times this inf...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/powerbi/making-a-powerquery-post-request" rel="permalink">Trial #36: Making a PowerQuery (M) Http POST Request
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-04T00:00:00+00:00">January 4, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/powerbi/active-directory-account-status-related-table" rel="permalink">Trial #34: AD User Account Status in PowerBI Model
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-11-30T00:00:00+00:00">November 30, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+I my previous posts I covered connecting PowerBI to AD and forming and returning user account data.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://it-trials.craigchamberlain.it/scripting/covid-tier-from-postcode";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/scripting/covid-tier-from-postcode"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ittrials.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

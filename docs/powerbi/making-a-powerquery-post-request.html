@@ -1,0 +1,667 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Making a PowerQuery (M) Http POST Request - IT Trials</title>
+<meta name="description" content="Problem: PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.">
+
+
+  <meta name="author" content="Craig Chamberlain">
+  
+  <meta property="article:author" content="Craig Chamberlain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="IT Trials">
+<meta property="og:title" content="Making a PowerQuery (M) Http POST Request">
+<meta property="og:url" content="https://it-trials.craigchamberlain.it/powerbi/making-a-powerquery-post-request">
+
+
+  <meta property="og:description" content="Problem: PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.">
+
+
+
+  <meta property="og:image" content="https://it-trials.craigchamberlain.it/assets/images/it-trials.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2021-01-04T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://it-trials.craigchamberlain.it/powerbi/making-a-powerquery-post-request">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Craig Chamberlain",
+      "url": "https://it-trials.craigchamberlain.it/",
+      "sameAs": ["https://twitter.com/hagatorn","https://www.linkedin.com/in/craig-chamberlain-61037149","https://stackoverflow.com/users/3822155/craig-c"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="IT Trials Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          IT Trials
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/aws/">AWS</a>
+            </li><li class="masthead__menu-item">
+              <a href="/azure/">Azure</a>
+            </li><li class="masthead__menu-item">
+              <a href="/gpo/">Group Policy</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mdt/">MS Deployment Toolkit</a>
+            </li><li class="masthead__menu-item">
+              <a href="/scripting/">Scripting</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/authors/1.jpg" alt="Craig Chamberlain" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Craig Chamberlain</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:craig@craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/hagatorn" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://stackoverflow.com/users/3822155/craig-c" rel="nofollow noopener noreferrer"><i class="fab fa-stack-overflow" aria-hidden="true"></i><span class="label">Stack Overflow</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/craig-chamberlain-61037149" rel="nofollow noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Making a PowerQuery (M) Http POST Request">
+    <meta itemprop="description" content="Problem:PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.">
+    <meta itemprop="datePublished" content="2021-01-04T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Trial #36: Making a PowerQuery (M) Http POST Request
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2021-01-04T00:00:00+00:00">January 4, 2021</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="problem">Problem:</h2>
+<p>PowerBi makes it very easy for you to make http <code class="language-plaintext highlighter-rouge">GET</code> requests, which can sometimes be done simply from navigating through a GUI.</p>
+
+<figure class="">
+  <img src="/assets/images/29/gui.jpg" alt="screenshot of the PowerBi Web Source GUI" /></figure>
+
+<p>I talked about this process briefly in a <a href="/powerbi/iterating-over-multiple-endpoints-in-powerbi">previous blog</a>.</p>
+
+<p>However, some <code class="language-plaintext highlighter-rouge">REST</code> or other data APIs require a <code class="language-plaintext highlighter-rouge">POST</code> request for example a request with a <code class="language-plaintext highlighter-rouge">JSON</code> or <code class="language-plaintext highlighter-rouge">XML</code> body.</p>
+
+<h2 id="solution">Solution:</h2>
+
+<p>I found a <a href="https://community.powerbi.com/t5/Desktop/How-to-run-POST-request-in-M/td-p/457138" target="_blank">recommendation on the PowerBi Community page</a> to add a <code class="language-plaintext highlighter-rouge">Content</code> parameter to the request.</p>
+
+<p>It is worth referring to the <a href="https://docs.microsoft.com/en-us/powerquery-m/web-contents" target="_blank"><code class="language-plaintext highlighter-rouge">Web.Conents()</code></a> API to understand this.</p>
+
+<figure class="">
+  <img src="/assets/images/36/web-contents-api.jpg" alt="screenshot of the official docs of the Web.Conents Function" /></figure>
+
+<p>As we can see <code class="language-plaintext highlighter-rouge">Web.Conents</code> has an optional <code class="language-plaintext highlighter-rouge">Options</code> parameter of record type.  There are various options we can set here including the Header which itself a record type. Although it doesn’t say here, the Content parameter is of binary type, as explained by <a href="https://de.linkedin.com/in/imkefeldmann" target="_blank">Imke Feldmann</a> at the <a href="https://www.thebiccountant.com/2018/06/05/easy-post-requests-with-power-bi-and-power-query-using-json-fromvalue/" target="_blank">BICCOUNTANT</a>.  Therefore you must turn an arbitrary text value into binary with <code class="language-plaintext highlighter-rouge">Text.ToBinary()</code> or produce a JSON or XML response from table data.</p>
+
+<p>Here is a basic an example function that performs a <code class="language-plaintext highlighter-rouge">POST</code> request with an XML body that includes a variable provided by a function parameter:</p>
+
+<figure class="highlight"><pre><code class="language-powerquery" data-lang="powerquery">let GetReports = (Id as number) =&gt;
+
+    let
+    //Parameters
+        ClientSecret = "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+    //Variables
+        Url = "https://example.domain/resource?apiKey="&amp; ClientSecret,
+        Request = "&lt;?xml version=""1.0"" encoding=""utf-8"" ?&gt;
+    &lt;YourTag&gt;
+        &lt;YourData meta="""&amp; Number.ToText(Id) &amp;""" Status=""1"" /&gt;
+    &lt;/YourTag&gt;",
+           Source = Json.Document(Web.Contents(Url, [Content=Text.ToBinary(Request)]))
+    in  Source
+
+in GetReports</code></pre></figure>
+
+<h2 id="pitfalls">Pitfalls:</h2>
+
+<p>If you are working with string literals be careful to escape internal <code class="language-plaintext highlighter-rouge">"</code> by simply doubling the double quote <code class="language-plaintext highlighter-rouge">""</code>.</p>
+
+<p>Ben Gribaudo has a <a href="https://bengribaudo.com/blog/2018/06/26/4470/power-query-m-primer-part6-types-intro-text" target="_blank">great primer over at his blog</a> on working with and escaping characters in strings.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2021-01-04T00:00:00+00:00">January 4, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Making+a+PowerQuery+%28M%29+Http+POST+Request%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fpowerbi%2Fmaking-a-powerquery-post-request" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fpowerbi%2Fmaking-a-powerquery-post-request" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fpowerbi%2Fmaking-a-powerquery-post-request" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/scripting/covid-tier-from-postcode" class="pagination--pager" title="Querying the gov.uk website for COVID-19 Tier by PostCode
+">Previous</a>
+    
+    
+      <a href="/scripting/parsing-alis-grade-exports" class="pagination--pager" title="Parsing and Transforming ALIS grade export data
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-midyis-grade-exports" rel="permalink">Trial #38: Parsing and Transforming MidYIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this i...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-alis-grade-exports" rel="permalink">Trial #37: Parsing and Transforming ALIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools.  At times this inf...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/covid-tier-from-postcode" rel="permalink">Trial #35: Querying the gov.uk website for COVID-19 Tier by PostCode
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-12-22T00:00:00+00:00">December 22, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+The UK Government has a special COVID-19 Data Website.
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/powerbi/active-directory-account-status-related-table" rel="permalink">Trial #34: AD User Account Status in PowerBI Model
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-11-30T00:00:00+00:00">November 30, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+I my previous posts I covered connecting PowerBI to AD and forming and returning user account data.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2022 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://it-trials.craigchamberlain.it/powerbi/making-a-powerquery-post-request";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/powerbi/making-a-powerquery-post-request"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ittrials.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
