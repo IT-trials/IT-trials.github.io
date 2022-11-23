@@ -10,7 +10,7 @@ locale: "en-GB"
 og_image: /assets/images/it-trials.jpg
 permalink: /:categories/:title #simplify url structure
 
-exclude: [Gemfile, Gemfile.lock, README.md, redirect.ps1, docs] # Don't copy these into _site
+exclude: [Gemfile, Gemfile.lock, README.md, redirect.ps1, docs, build.sh] # Don't copy these into _site
 
 # Build settings
 markdown: kramdown
