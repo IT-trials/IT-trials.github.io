@@ -313,7 +313,7 @@
       <section class="page__content" itemprop="text">
         
         <h2 id="problem">Problem:</h2>
-<p>At the school at which I work, we had no way of importing our baseline <a href="https://www.cem.org/midyis">MidYIS</a> scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a <a href="/scripting/parsing-alis-grade-exports">partner article on the ALIS baseline system</a>.</p>
+<p>At the school at which I work, we had no way of importing our baseline <a href="https://www.cem.org/midyis" target="_blank">MidYIS</a> scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a <a href="/scripting/parsing-alis-grade-exports" target="_blank">partner article on the ALIS baseline system</a>.</p>
 
 <h2 id="solution">Solution:</h2>
 <p>I will add an appendix with <a href="#data-acquisition">instructions on how I acquired the data</a> but will dive straight into the implementation of how I chose to parse and transform</p>
@@ -354,7 +354,7 @@
 
 <p>You can use the .NET  <code class="language-plaintext highlighter-rouge">XML</code> type to get a structured object from a valid XML document e.g. If you are working with a huge file you could be more careful and scan through a memory stream for the content of interest.</p>
 
-<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$import</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">XML</span><span class="p">](</span><span class="n">Get-Content</span><span class="w"> </span><span class="s2">".\PredIE9XML_00069772.xml"</span><span class="p">)</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$import</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">XML</span><span class="p">](</span><span class="n">Get-Content</span><span class="w"> </span><span class="s2">".\PredIE9XML_000XXXXX.xml"</span><span class="p">)</span></code></pre></figure>
 
 <p>If we explore the data we can traverse to a Node containing all of our predicted results.</p>
 
@@ -430,7 +430,7 @@
 
 <h2 id="data-acquisition">Acquire Data from CEM</h2>
 
-<p>Head over to <em>Cambridge University Press</em> &amp; <em>Assessment’s Centre for Evaluation Monitoring</em> and log into the <a href="https://css.cemcentre.org/SecondaryPlusNet/Login.aspx">MidYIS</a> portal using your school’s credentials.</p>
+<p>Head over to <em>Cambridge University Press</em> &amp; <em>Assessment’s Centre for Evaluation Monitoring</em> and log into the <a href="https://css.cemcentre.org/SecondaryPlusNet/Login.aspx" target="_blank">MidYIS</a> portal using your school’s credentials.</p>
 
 <p>Drill down into the <strong>Reports -&gt; Data and Reports</strong> page</p>
 
@@ -487,7 +487,8 @@
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/scripting/making-class-teams-with-the-microsoftteams-powershell-module" class="pagination--pager" title="Making Class Teams with the MicrosoftTeams PowerShell Module
+">Next</a>
     
   </nav>
 
@@ -501,6 +502,147 @@
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/saving-sensitive-data-to-file-with-powershell" rel="permalink">Trial #41: Saving Sensitive Data to File with PowerShell
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information ...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/populate-active-directory-with-isams-pupil-data" rel="permalink">Trial #40: Populate Active Directory with iSAMS Pupil Data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make su...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/making-class-teams-with-the-microsoftteams-powershell-module" rel="permalink">Trial #39: Making Class Teams with the MicrosoftTeams PowerShell Module
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+We have c. 500 different sets, each with at least one teacher and many pupils.  This information is all available from our MIS but how can we automa...</p>
+  </article>
+</div>
+
         
           
 
@@ -549,150 +691,6 @@ At the school at which I work, we had no way of importing our baseline ALIS scor
 </div>
 
         
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/powerbi/making-a-powerquery-post-request" rel="permalink">Trial #36: Making a PowerQuery (M) Http POST Request
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2021-01-04T00:00:00+00:00">January 4, 2021</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Problem:
-PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/scripting/covid-tier-from-postcode" rel="permalink">Trial #35: Querying the gov.uk website for COVID-19 Tier by PostCode
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2020-12-22T00:00:00+00:00">December 22, 2020</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Problem:
-The UK Government has a special COVID-19 Data Website.
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/powerbi/active-directory-account-status-related-table" rel="permalink">Trial #34: AD User Account Status in PowerBI Model
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2020-11-30T00:00:00+00:00">November 30, 2020</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Problem:
-I my previous posts I covered connecting PowerBI to AD and forming and returning user account data.
-</p>
-  </article>
-</div>
-
-        
       </div>
     </div>
   
@@ -722,7 +720,7 @@ I my previous posts I covered connecting PowerBI to AD and forming and returning
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2022 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2023 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>

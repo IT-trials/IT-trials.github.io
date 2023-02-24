@@ -6,14 +6,247 @@
 </description>
     <link>https://it-trials.craigchamberlain.it/</link>
     <atom:link href="https://it-trials.craigchamberlain.it/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 Nov 2022 13:01:27 +0000</pubDate>
-    <lastBuildDate>Tue, 22 Nov 2022 13:01:27 +0000</lastBuildDate>
+    <pubDate>Fri, 24 Feb 2023 14:55:34 +0000</pubDate>
+    <lastBuildDate>Fri, 24 Feb 2023 14:55:34 +0000</lastBuildDate>
     <generator>Jekyll v4.3.1</generator>
+    
+      <item>
+        <title>Saving Sensitive Data to File with PowerShell</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
+&lt;p&gt;You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information should rarely be trivially accessible to another user of the computer.  Therefore, saving credentials and other secrets in clear text is not advisable. Some form of encryption or at least obfuscation is advisable.&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
+&lt;p&gt;.NET and PowerShell has a Class called &lt;a href=&quot;https://learn.microsoft.com/en-us/dotnet/api/system.security.securestring&quot; target=&quot;_blank&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SecureString&lt;/code&gt;&lt;/a&gt; that can be a safer way to hold sensitive data in memory than a simple &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;System&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;.  Although &lt;a href=&quot;https://github.com/dotnet/platform-compat/blob/master/docs/DE0001.md&quot; target=&quot;_blank&quot;&gt;this is not to be considered completely safe, particularly on non-Windows systems&lt;/a&gt;, I am unaware of a better, easily supported way of getting at least some protection in PowerShell.  I’d love to hear about more rock solid options in a comment and I will post an additional article.  Use this method if your alternative is storing in clear text, as the cost is low enough to be considered free.  If your working with state secrets this is certainly not the final word.&lt;/p&gt;
+
+&lt;h3 id=&quot;acquire-your-securestring&quot;&gt;Acquire your SecureString&lt;/h3&gt;
+
+&lt;p&gt;One way to acquire a [&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SecureString&lt;/code&gt;] is from the host.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Read-Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-AsSecureString&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;You can also convert a standard string from some other input.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Secret&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertTo-SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-AsPlainText&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;persisting-your-securestring&quot;&gt;Persisting your SecureString&lt;/h3&gt;
+&lt;p&gt;PowerShell has the &lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/convertfrom-securestring&quot; target=&quot;_blank&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ConvertFrom-SecureString&lt;/code&gt;&lt;/a&gt;  Cmdlet.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;The ConvertFrom-SecureString cmdlet converts a secure string (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;System.Security.SecureString&lt;/code&gt;) into an encrypted standard string (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;System.String&lt;/code&gt;). Unlike a secure string, an encrypted standard string can be saved in a file for later use.&lt;br /&gt;
+– &lt;cite&gt;&lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/convertfrom-securestring?view=powershell-7.3#description&quot; target=&quot;_blank&quot;&gt;ConvertFrom-SecureString&lt;/a&gt; &lt;/cite&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This is an essential step to serialise our SecureString prior to persisting to a text file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertFrom-SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;secret.txt&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Or even a json structure.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;p&quot;&gt;@{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Secret&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+   &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertTo-Json&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;secret.json&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;importing-your-securestring&quot;&gt;Importing your SecureString&lt;/h3&gt;
+&lt;p&gt;When you read your secure string back from file, it is in the form of an encrypted &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;, this will almost always need to be converted back to a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SecureString&lt;/code&gt; and ultimately a clear text &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;String&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$encryptedString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-Contents&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;secret.txt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Raw&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$encryptedString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertTo-SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$clearTextString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$secureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertFrom-SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-AsPlainText&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+</description>
+        <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+        <link>https://it-trials.craigchamberlain.it/scripting/saving-sensitive-data-to-file-with-powershell</link>
+        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/scripting/saving-sensitive-data-to-file-with-powershell</guid>
+        
+        
+        <category>Scripting</category>
+        
+      </item>
+    
+      <item>
+        <title>Populate Active Directory with iSAMS Pupil Data</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
+&lt;p&gt;If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make sure changes propagate to your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Global Address List&lt;/code&gt;?&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
+&lt;p&gt;PowerShell makes the management of Active Directory very easy using the &lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/activedirectory/&quot; target=&quot;_blank&quot;&gt;ActiveDirectory&lt;/a&gt; Module.&lt;/p&gt;
+
+&lt;p&gt;I have published a client and &lt;a href=&quot;https://github.com/CraigChamberlain/IsamsBatchApiClient.NET.Core&quot; target=&quot;_blank&quot;&gt;PowerShell Module&lt;/a&gt; the the iSAMS Batch API.&lt;/p&gt;
+
+&lt;p&gt;This can be installed from the PowerShell Gallery:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Install-Module&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;IsamsBatchApi&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;We can use these modules to acquire the data and and make changes to Active Directory.&lt;/p&gt;
+
+&lt;h3 id=&quot;acquiring-the-pupil-data&quot;&gt;Acquiring the Pupil Data&lt;/h3&gt;
+&lt;p&gt;The simplest way to get the data is using an API Key&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$pupils&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-IsamsCurrentPupil&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ApiKey&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;0A1C996B-8E74-4388-A3C4-8DA1E30ADA57&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-IsamsInstance&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://school.isams.cloud&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However, this authentication method will be phased out in the future and you will need to Connect using OATH&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Connect-Isams&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ClientID&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your_ID&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-ClientSecret&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your_SECRET&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-IsamsInstance&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://school.isams.cloud&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pupils&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-IsamsCurrentPupil&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Disconnect-Isams&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;matching-with-active-directory&quot;&gt;Matching with Active Directory&lt;/h3&gt;
+&lt;p&gt;In our environment, the iSAMS property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SchoolCode&lt;/code&gt; matches the AD property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SamAccountName&lt;/code&gt; which is also a valid &lt;a href=&quot;https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser#-identity&quot; target=&quot;_blank&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-Identity&lt;/code&gt;&lt;/a&gt; property of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Get-ADUser&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Therefore we can iterate over our pupils and attempt to get our AD users like this.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$pupils&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ForEach-Object&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$user&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-ADUser&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;SchoolCode&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Properties&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EmployeeID&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EmployeeNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;DisplayName&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;# Some action&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However, the iSAMS property &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SchoolCode&lt;/code&gt; is not a perfect primary key - there is no guarantee of uniqueness and it might change throughout a pupils school career.  Therefore, I prefer to use the iSAMS properties &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Id&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SchoolId&lt;/code&gt; which I write into the AD properties &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmployeeID&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;EmployeeNumber&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Set-ADUser&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$user&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-EmployeeID&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;Id&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Confirm&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Set-ADUser&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$user&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-EmployeeNumber&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;SchoolId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Confirm&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;example-script&quot;&gt;Example Script&lt;/h3&gt;
+&lt;p&gt;You may be able to use the following script as a starting point for your own environment.&lt;/p&gt;
+
+&lt;p&gt;I store restricted information in a config file using a method I describe in &lt;a href=&quot;/scripting/saving-sensitive-data-to-file-with-powershell&quot;&gt;my next post&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The following will persist details with at least some obfuscation to file.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;p&quot;&gt;@{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;BatchAPI&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;@{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Prompt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Input your iSAMS instance e.g. https://school.isams.cloud&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertTo&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AsPlainText&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Force&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ClientID&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AsSecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Prompt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Input your Client ID e.g. 6283d2d5-2518-4999-9db0-cc5c81750069&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ClientSecret&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AsSecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Prompt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Input your Client Secret e.g. 69bd76b9-00ca-44d7-8e86-72368c33c33f&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ActiveDirectory&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;@{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;PupilSearchBase&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Prompt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Input the OU you pupils are stored in e.g. OU=Pupils,DC=domain,DC=local&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertTo&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AsPlainText&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Force&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;StaffSearchBase&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Read&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Host&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Prompt&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Input the OU you staff are stored in e.g. OU=Staff,DC=domain,DC=local&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertTo&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;AsPlainText&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Force&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ConvertFrom&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;SecureString&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;|&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ConvertTo-Json&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;config.json&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The following script loads this information so it need not be input manually every time it is run.  It will prompt for user confirmation when a new match between AD and iSAMS is found before writing the iSAMS primary key to the AD user.  AD Users with a matching iSAMS ID will have other properties updated to match iSAMS as required.  Furthermore, a set of pupils that may need to be created in AD are collected in the variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$isamsUsersToCreate&lt;/code&gt;.&lt;/p&gt;
+
+&lt;noscript&gt;&lt;pre&gt;400: Invalid request&lt;/pre&gt;&lt;/noscript&gt;
+&lt;script src=&quot;https://gist.github.com/d70a2804f20abe8ca2a96654d2d587c6.js&quot;&gt; &lt;/script&gt;
+
+</description>
+        <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+        <link>https://it-trials.craigchamberlain.it/scripting/populate-active-directory-with-isams-pupil-data</link>
+        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/scripting/populate-active-directory-with-isams-pupil-data</guid>
+        
+        
+        <category>Scripting</category>
+        
+      </item>
+    
+      <item>
+        <title>Making Class Teams with the MicrosoftTeams PowerShell Module</title>
+        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
+&lt;p&gt;We have c. 500 different sets, each with at least one teacher and many pupils.  This information is all available from our MIS but how can we automate to provisioning of the Class Teams complete with Classroom Notebooks?&lt;/p&gt;
+
+&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
+
+&lt;p&gt;Microsoft provide a very helpful Module called &lt;a href=&quot;https://www.powershellgallery.com/packages/MicrosoftTeams/4.9.1&quot; target=&quot;_blank&quot;&gt;MicrosoftTeams&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;You might need to install and then connect to your Office365 instance before trying following along.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Install-Module&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;MicrosoftTeams&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Connect-MicrosoftTeams&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The template for a Class Team is called &lt;strong&gt;EDU_Class&lt;/strong&gt; and can be used like this&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$newTeam&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;New-Team&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Template&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;EDU_Class&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-DisplayName&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your New Team&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Once you have a team, via the return object of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;New-Team&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Get-Team&lt;/code&gt;, you can add members and teachers using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add-TeamUser&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Add-TeamUser&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-GroupId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$newTeam&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GroupId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-User&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;pupil&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain.com&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Role&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Member&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Add-TeamUser&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-GroupId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$newTeam&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;GroupId&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-User&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;teacher&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;domain.com&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Role&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Owner&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Although this approach does work, it runs into problems at scale.  Team creation can be very slow and even at failure prone due to throttling.  For this reason, I found it better to create the teams in several passes with error correction and then populate the sets once this stage is complete.&lt;/p&gt;
+
+&lt;p&gt;I get my set information from my MIS in a particular format which might not match your own.  All the same you may find this script a useful resource when creating your own.  I did find some slightly annoying loops when an email address from the MIS did not quite match AD, where a member would be added and removed on each pass, keep your data consistent where you can and look out for similar problems.&lt;/p&gt;
+
+&lt;noscript&gt;&lt;pre&gt;400: Invalid request&lt;/pre&gt;&lt;/noscript&gt;
+&lt;script src=&quot;https://gist.github.com/cf6cae2cecb8343d1b8a361256d12a83.js&quot;&gt; &lt;/script&gt;
+
+&lt;h2 id=&quot;batching---not-currently-supported&quot;&gt;Batching - Not currently supported:&lt;/h2&gt;
+
+&lt;p&gt;In the future, there may be better approaches such as batching.  Microsoft also provide a batch option called &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;New-CsBatchTeamsDeployment&lt;/code&gt; which is not clear in the help file but is described in the following article, &lt;a href=&quot;https://learn.microsoft.com/en-us/microsoft-365/frontline/deploy-teams-at-scale?view=o365-worldwide&quot; target=&quot;_blank&quot;&gt;Deploy Teams at scale for frontline workers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;I attempted to use this API using the following tables in csv format.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Team Name&lt;/th&gt;
+      &lt;th&gt;Existing Team ID&lt;/th&gt;
+      &lt;th&gt;Visibility&lt;/th&gt;
+      &lt;th&gt;Team Template ID&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Your New Team&lt;/td&gt;
+      &lt;td&gt; &lt;/td&gt;
+      &lt;td&gt;Private&lt;/td&gt;
+      &lt;td&gt;EDU_Class&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;User Full Name&lt;/th&gt;
+      &lt;th&gt;User UPN or ID&lt;/th&gt;
+      &lt;th&gt;Team Name&lt;/th&gt;
+      &lt;th&gt;ActionType&lt;/th&gt;
+      &lt;th&gt;Owner or Member&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Mr Teacher&lt;/td&gt;
+      &lt;td&gt;teacher@domain.com&lt;/td&gt;
+      &lt;td&gt;Your New Team&lt;/td&gt;
+      &lt;td&gt;AddMember&lt;/td&gt;
+      &lt;td&gt;Owner&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Miss Pupil&lt;/td&gt;
+      &lt;td&gt;puplil@domain.com&lt;/td&gt;
+      &lt;td&gt;Your New Team&lt;/td&gt;
+      &lt;td&gt;AddMember&lt;/td&gt;
+      &lt;td&gt;Member&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;New-CsBatchTeamsDeployment&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-TeamsFilePath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;team.csv&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-UsersFilePath&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;users.csv&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-UsersToNotify&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;admin@domain.com&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;However, the Team Template ID &lt;strong&gt;EDU_Class&lt;/strong&gt; is unsupported which makes this approach useless at this time.  &lt;a href=&quot;https://feedbackportal.microsoft.com/feedback/idea/d0a569bf-f47b-ed11-a81b-000d3ae32cd0&quot; target=&quot;_blank&quot;&gt;I have asked Microsoft&lt;/a&gt; if they are going to support this Template or if it operates under a different name but have yet to receive an answer. Please up-vote this if you would like to make Teams this way.&lt;/p&gt;
+
+&lt;h2 id=&quot;school-data-sync-sds&quot;&gt;School Data Sync (SDS):&lt;/h2&gt;
+&lt;p&gt;You may be able to plug your MIS directly into SDS.  It is too prescriptive for our needs but I believe that it could be used to create teams from a custom system for example using the &lt;a href=&quot;https://learn.microsoft.com/en-gb/schooldatasync/data-ingestion-with-sds-v2.1-csv&quot; target=&quot;_blank&quot;&gt;csv data ingestion&lt;/a&gt; API.  I may look at using this for Teams creation next school year.&lt;/p&gt;
+
+&lt;h2 id=&quot;microsoft-graph&quot;&gt;Microsoft Graph:&lt;/h2&gt;
+&lt;p&gt;I have used Microsoft Graph a little bit now to get data on Teams Assignments and it seems really powerful.  It looks like this might become a good alternative to the Teams Module, please see the &lt;a href=&quot;https://learn.microsoft.com/en-us/graph/api/educationroot-post-classes?view=graph-rest-beta&amp;amp;tabs=http&quot; target=&quot;_blank&quot;&gt;MSGraph Create educationClass endpoint.&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 24 Feb 2023 00:00:00 +0000</pubDate>
+        <link>https://it-trials.craigchamberlain.it/scripting/making-class-teams-with-the-microsoftteams-powershell-module</link>
+        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/scripting/making-class-teams-with-the-microsoftteams-powershell-module</guid>
+        
+        
+        <category>Scripting</category>
+        
+      </item>
     
       <item>
         <title>Parsing and Transforming MidYIS grade export data</title>
         <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
-&lt;p&gt;At the school at which I work, we had no way of importing our baseline &lt;a href=&quot;https://www.cem.org/midyis&quot;&gt;MidYIS&lt;/a&gt; scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a &lt;a href=&quot;/scripting/parsing-alis-grade-exports&quot;&gt;partner article on the ALIS baseline system&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At the school at which I work, we had no way of importing our baseline &lt;a href=&quot;https://www.cem.org/midyis&quot; target=&quot;_blank&quot;&gt;MidYIS&lt;/a&gt; scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a &lt;a href=&quot;/scripting/parsing-alis-grade-exports&quot; target=&quot;_blank&quot;&gt;partner article on the ALIS baseline system&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
 &lt;p&gt;I will add an appendix with &lt;a href=&quot;#data-acquisition&quot;&gt;instructions on how I acquired the data&lt;/a&gt; but will dive straight into the implementation of how I chose to parse and transform&lt;/p&gt;
@@ -54,7 +287,7 @@
 
 &lt;p&gt;You can use the .NET  &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;XML&lt;/code&gt; type to get a structured object from a valid XML document e.g. If you are working with a huge file you could be more careful and scan through a memory stream for the content of interest.&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$import&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-Content&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.\PredIE9XML_00069772.xml&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$import&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;XML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Get-Content&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;.\PredIE9XML_000XXXXX.xml&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;If we explore the data we can traverse to a Node containing all of our predicted results.&lt;/p&gt;
 
@@ -130,7 +363,7 @@
 
 &lt;h2 id=&quot;data-acquisition&quot;&gt;Acquire Data from CEM&lt;/h2&gt;
 
-&lt;p&gt;Head over to &lt;em&gt;Cambridge University Press&lt;/em&gt; &amp;amp; &lt;em&gt;Assessment’s Centre for Evaluation Monitoring&lt;/em&gt; and log into the &lt;a href=&quot;https://css.cemcentre.org/SecondaryPlusNet/Login.aspx&quot;&gt;MidYIS&lt;/a&gt; portal using your school’s credentials.&lt;/p&gt;
+&lt;p&gt;Head over to &lt;em&gt;Cambridge University Press&lt;/em&gt; &amp;amp; &lt;em&gt;Assessment’s Centre for Evaluation Monitoring&lt;/em&gt; and log into the &lt;a href=&quot;https://css.cemcentre.org/SecondaryPlusNet/Login.aspx&quot; target=&quot;_blank&quot;&gt;MidYIS&lt;/a&gt; portal using your school’s credentials.&lt;/p&gt;
 
 &lt;p&gt;Drill down into the &lt;strong&gt;Reports -&amp;gt; Data and Reports&lt;/strong&gt; page&lt;/p&gt;
 
@@ -164,12 +397,12 @@
       <item>
         <title>Parsing and Transforming ALIS grade export data</title>
         <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
-&lt;p&gt;At the school at which I work, we had no way of importing our baseline &lt;a href=&quot;https://www.cem.org/ALIS&quot;&gt;ALIS&lt;/a&gt; scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a &lt;a href=&quot;/scripting/parsing-midyis-grade-exports&quot;&gt;partner article on the MidYIS baseline system&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;At the school at which I work, we had no way of importing our baseline &lt;a href=&quot;https://www.cem.org/ALIS&quot; target=&quot;_blank&quot;&gt;ALIS&lt;/a&gt; scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a &lt;a href=&quot;/scripting/parsing-midyis-grade-exports&quot; target=&quot;_blank&quot;&gt;partner article on the MidYIS baseline system&lt;/a&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
 &lt;p&gt;I will add an appendix with &lt;a href=&quot;#data-acquisition&quot;&gt;instructions on how I acquired the data&lt;/a&gt; but will dive straight into the implementation of how I chose to parse and transform&lt;/p&gt;
 
-&lt;p&gt;Once you have your file, open and save as xlsx.  The OpenOfficeSDK used in the &lt;a href=&quot;https://www.powershellgallery.com/packages/ImportExcel&quot;&gt;ImportExcel module&lt;/a&gt; cannot open xls files.  You may need to install the module&lt;/p&gt;
+&lt;p&gt;Once you have your file, open and save as xlsx.  The OpenOfficeSDK used in the &lt;a href=&quot;https://www.powershellgallery.com/packages/ImportExcel&quot; target=&quot;_blank&quot;&gt;ImportExcel module&lt;/a&gt; cannot open xls files.  You may need to install the module&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-posh&quot; data-lang=&quot;posh&quot;&gt;&lt;span class=&quot;n&quot;&gt;Install-Module&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;-Name&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ImportExcel&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
@@ -204,7 +437,7 @@
 
 &lt;h2 id=&quot;data-acquisition&quot;&gt;Acquire Data from CEM&lt;/h2&gt;
 
-&lt;p&gt;Head over to &lt;em&gt;Cambridge University Press&lt;/em&gt; &amp;amp; &lt;em&gt;Assessment’s Centre for Evaluation Monitoring&lt;/em&gt; and log into the &lt;a href=&quot;https://css.cemcentre.org/ALIS/Site/LoginTemplate.aspx&quot;&gt;Alis&lt;/a&gt; portal using your school’s credentials.&lt;/p&gt;
+&lt;p&gt;Head over to &lt;em&gt;Cambridge University Press&lt;/em&gt; &amp;amp; &lt;em&gt;Assessment’s Centre for Evaluation Monitoring&lt;/em&gt; and log into the &lt;a href=&quot;https://css.cemcentre.org/ALIS/Site/LoginTemplate.aspx&quot; target=&quot;_blank&quot;&gt;Alis&lt;/a&gt; portal using your school’s credentials.&lt;/p&gt;
 
 &lt;p&gt;Drill down into the &lt;strong&gt;Reports -&amp;gt; Predictive Data&lt;/strong&gt; page&lt;/p&gt;
 &lt;figure&gt;
@@ -676,244 +909,6 @@ in
         <pubDate>Sat, 28 Nov 2020 00:00:00 +0000</pubDate>
         <link>https://it-trials.craigchamberlain.it/powerbi/active-directory-ou-related-table</link>
         <guid isPermaLink="true">https://it-trials.craigchamberlain.it/powerbi/active-directory-ou-related-table</guid>
-        
-        
-        <category>PowerBI</category>
-        
-      </item>
-    
-      <item>
-        <title>Transform Active Directory User CN to OU in PowerBI Model</title>
-        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
-&lt;p&gt;One of the columns present in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Users&lt;/code&gt; table is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;distinguishedName&lt;/code&gt;.  The OU of the user is not obviously available in the table or inside any of its records.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
-
-&lt;p&gt;One simple solution, using the menus takes just three steps and covers over 99% of accounts in my domain and all of the accounts I am interested in.&lt;/p&gt;
-
-&lt;p&gt;If you want to retain the column distinguishedName, for example to act as a primary key, begin the process by creating a new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Custom Column&lt;/code&gt;&lt;/p&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/31/copy-column.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Copy distinguishedName to new column with a suitable name.
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;Or else rename the existing column to OU&lt;/p&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/31/rename-column.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Rename the Column to OU or OrganisationUnit
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/31/text-after-first-ou.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Extract text after the first instance of &quot;OU&quot;
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/31/prefix-ou.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Add &quot;OU&quot; back to the start of the string as the previous step removes it
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;This produces the following &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;PowerQuery&lt;/code&gt; expression&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powerquery&quot; data-lang=&quot;powerquery&quot;&gt;#&quot;Table1&quot; = Table.AddColumn(#&quot;Table0&quot;, &quot;OU&quot;, each [distinguishedName])
-#&quot;Table2&quot; = Table.TransformColumns(#&quot;Table1&quot;, {{&quot;OU&quot;, each Text.AfterDelimiter(_, &quot;,OU=&quot;), type text}}),
-#&quot;Table3&quot; = Table.TransformColumns(#&quot;Table2&quot;, {{&quot;OU&quot;, each &quot;OU=&quot; &amp;amp; _, type text}})&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;pitfalls&quot;&gt;Pitfalls:&lt;/h2&gt;
-
-&lt;p&gt;Depending on your OU structure, some users may not be in an OU and their &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OU&lt;/code&gt; column will read &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;OU=&lt;/code&gt;.
-The simplest solution is just to add a filter to remove the malformed records.&lt;/p&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/31/filter-ou.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Filter invalid results with empty OU
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powerquery&quot; data-lang=&quot;powerquery&quot;&gt;    #&quot;Table4&quot; = Table.SelectRows(#&quot;Table3&quot;, each ([OU] &amp;lt;&amp;gt; &quot;OU=&quot;))&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;However, you could also write a more complex transform with branching logic to remove a single CN in the case that there are no OUs but I did not need to report on these accounts anyway.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately, I could not simply use the comma delimited structure of the distingushedName to remove the first element as commas are permitted in an OU string and may be very common and may indeed if you name &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Jane Blogs&lt;/code&gt; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Blogs, Jane&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;These extra commas are escaped with a forward slash &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CN=Blogs/, Jane,OU=...&lt;/code&gt; therefore a slightly more complete solution is as follows, PowerQuery only I am afraid.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-powerquery&quot; data-lang=&quot;powerquery&quot;&gt;#&quot;Table2&quot; = Table.TransformColumns(#&quot;Table1 , 
-				{{ 
-					&quot;OU&quot;, 
-					each if Text.Contains(_,&quot;\,&quot;) 
-						then  &quot;OU=&quot; &amp;amp; Text.AfterDelimiter(_, &quot;,OU=&quot;) 
-						else Text.AfterDelimiter(_, &quot;,&quot;),
-					type text
-				}}
-			)&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;This does not cover the edge case that the user is not in an OU but inside a CN that does have a comma.  However, these accounts seem to be limited to those in built in containers such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CN=Users,DC=domain,DC=local&lt;/code&gt; or other Microsoft/AD structures so commas in these are unlikely.&lt;/p&gt;
-
-&lt;p&gt;With Regular Expressions you could do a reverse lookup to check the condition of the previous &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;char&lt;/code&gt; but I haven’t seen this option in PowerQuery.  Comment below if you know better.&lt;/p&gt;
-
-&lt;h2&gt;Other Posts in the PowerBI-AD Series:&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-account-status-related-table&quot;&gt;Trial #34: AD User Account Status in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-groups-related-table&quot;&gt;Trial #33: Querying AD Users Group Membership with PowerBI&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-ou-related-table&quot;&gt;Trial #32: Making OUs More Readable with a Related Table in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-users-in-powerbi-model-transform-cn-to-ou&quot;&gt;Trial #31: Transform Active Directory User CN to OU in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-users-in-powerbi-model&quot;&gt;Trial #30: Accessing Active Directory Users in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;/ul&gt;
-</description>
-        <pubDate>Thu, 26 Nov 2020 00:00:00 +0000</pubDate>
-        <link>https://it-trials.craigchamberlain.it/powerbi/active-directory-users-in-powerbi-model-transform-cn-to-ou</link>
-        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/powerbi/active-directory-users-in-powerbi-model-transform-cn-to-ou</guid>
-        
-        
-        <category>PowerBI</category>
-        
-      </item>
-    
-      <item>
-        <title>Accessing Active Directory Users in PowerBI Model</title>
-        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
-&lt;p&gt;PowerBI has supports connecting to Active Directory as standard.  However, this is not as simple or as intuitive as either the popular Active Directory GUIs tool or the indispensable &lt;a href=&quot;https://docs.microsoft.com/en-us/powershell/module/addsadministration/&quot;&gt;PowerShell ActiveDirectory Module&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;I will first show how to connect to Active Directory Users and then have several more posts on the filters I applied to make a set of usable models.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
-
-&lt;p&gt;Connecting to Active Directory is as easy stepping through the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;New Source&lt;/code&gt; interface.&lt;/p&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/30/ad.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Adding an Active Directory Data to PowerBI Source
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;p&gt;Scroll down to the Users Table.&lt;/p&gt;
-
-&lt;figure&gt;
-	&lt;img src=&quot;/assets/images/30/ad-user-table.jpg&quot; /&gt;
-	&lt;figcaption&gt;
-	Selecting the User Objects
-	&lt;/figcaption&gt;
-&lt;/figure&gt;
-
-&lt;h2 id=&quot;pitfalls&quot;&gt;Pitfalls:&lt;/h2&gt;
-
-&lt;p&gt;As you will see, all user types are returned; &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Service Accounts&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Contacts&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;User Accounts&lt;/code&gt; …&lt;/p&gt;
-
-&lt;p&gt;It is not obvious what type the users are, if they are disabled, or really any other of the information you are likely to want.&lt;/p&gt;
-
-&lt;p&gt;Furthermore the data returned is multi-dimensional. To make it more usable we will need to convert into a tabular form, perhaps utilising related tables.&lt;/p&gt;
-
-&lt;h2&gt;Other Posts in the PowerBI-AD Series:&lt;/h2&gt;
-
-&lt;ul&gt;
-
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-account-status-related-table&quot;&gt;Trial #34: AD User Account Status in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-groups-related-table&quot;&gt;Trial #33: Querying AD Users Group Membership with PowerBI&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-ou-related-table&quot;&gt;Trial #32: Making OUs More Readable with a Related Table in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-users-in-powerbi-model-transform-cn-to-ou&quot;&gt;Trial #31: Transform Active Directory User CN to OU in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;a href=&quot;/powerbi/active-directory-users-in-powerbi-model&quot;&gt;Trial #30: Accessing Active Directory Users in PowerBI Model&lt;/a&gt;&lt;/li&gt;
-
-&lt;/ul&gt;
-</description>
-        <pubDate>Wed, 25 Nov 2020 00:00:00 +0000</pubDate>
-        <link>https://it-trials.craigchamberlain.it/powerbi/active-directory-users-in-powerbi-model</link>
-        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/powerbi/active-directory-users-in-powerbi-model</guid>
-        
-        
-        <category>PowerBI</category>
-        
-      </item>
-    
-      <item>
-        <title>Iterating Over Multiple API Endpoints in a PowerBI Query</title>
-        <description>&lt;h2 id=&quot;problem&quot;&gt;Problem:&lt;/h2&gt;
-&lt;p&gt;It is straight forward to source data from a web request in PowerBI.  You can do so by selecting Get Data -&amp;gt; Web.
- &lt;img src=&quot;/assets/images/29/gui.jpg&quot; alt=&quot;GUI&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Optionally, under advanced you can “Add Parts” to your URL.  For example, the code behind below, found in the advanced editor, is generated by the URL parts &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://craigchamberlain.github.io/moon-data/api/moon-phase-data/&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1700&lt;/code&gt;.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-m&quot; data-lang=&quot;m&quot;&gt;&lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Web&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;s2&quot;&gt;&quot;https://craigchamberlain.github.io/moon-data/api/moon-phase-data/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; 
-      &lt;span class=&quot;s2&quot;&gt;&quot;1700&quot;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Source&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;However, this will return just one response.  If you need to iterate over paged results or indeed target a different URL entirely.&lt;/p&gt;
-
-&lt;h2 id=&quot;solution&quot;&gt;Solution:&lt;/h2&gt;
-
-&lt;p&gt;The first step might be to converting the query into a function.  For those familiar with Expression Bodied Functions or Lambda Expressions the syntax may be familiar, simply prefix the expression with zero or more comma separated parameters in parenthesis, followed by &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;=&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Please note if you may need to convert the parameter type to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Text&lt;/code&gt;, in my example from a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Number&lt;/code&gt;.  I will write another post on writing parameter types.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-m&quot; data-lang=&quot;m&quot;&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Source&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Web&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-     &lt;span class=&quot;s2&quot;&gt;&quot;https://craigchamberlain.github.io/moon-data/api/moon-phase-data/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; 
-      &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ToText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;in&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Source&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;The final step at this stage would be to iterate over the various years and collect into a unified dataset.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-m&quot; data-lang=&quot;m&quot;&gt;&lt;span class=&quot;n&quot;&gt;let&lt;/span&gt;
-
-  &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Create&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;numbers&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;you&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;with&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iterate&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;over&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Min&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1700&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Max&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2082&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;Years&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Numbers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Min&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Max&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Min&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; 
-   
-  &lt;span class=&quot;p&quot;&gt;//&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Map&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;your&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;call&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;the&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;list&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;items&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;AllYearsData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Transform&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Years&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;Json&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;Web&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Contents&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-        &lt;span class=&quot;s2&quot;&gt;&quot;https://craigchamberlain.github.io/moon-data/api/moon-phase-data/&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; 
-        &lt;span class=&quot;n&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ToText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;year&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;AllYearsData&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Please note that this is not how I would present this query in production.  At a minimum, I would define the function in a separate file.  I would also prefer to see the upper and lower limits of the list provided by variables, or the range by a query and the parameters types defined.  There would be further transformations to make the data usable but this is easily achieved in the GUI and is not within the scope of this particular trial.&lt;/p&gt;
-</description>
-        <pubDate>Thu, 15 Oct 2020 00:00:00 +0100</pubDate>
-        <link>https://it-trials.craigchamberlain.it/powerbi/iterating-over-multiple-endpoints-in-powerbi</link>
-        <guid isPermaLink="true">https://it-trials.craigchamberlain.it/powerbi/iterating-over-multiple-endpoints-in-powerbi</guid>
         
         
         <category>PowerBI</category>

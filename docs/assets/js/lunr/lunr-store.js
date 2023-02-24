@@ -226,4 +226,22 @@ var store = [{
         "tags": [],
         "url": "/scripting/parsing-midyis-grade-exports",
         "teaser": null
+      },{
+        "title": "Making Class Teams with the MicrosoftTeams PowerShell Module",
+        "excerpt":"Problem: We have c. 500 different sets, each with at least one teacher and many pupils. This information is all available from our MIS but how can we automate to provisioning of the Class Teams complete with Classroom Notebooks? Solution: Microsoft provide a very helpful Module called MicrosoftTeams. You might...","categories": ["Scripting"],
+        "tags": [],
+        "url": "/scripting/making-class-teams-with-the-microsoftteams-powershell-module",
+        "teaser": null
+      },{
+        "title": "Populate Active Directory with iSAMS Pupil Data",
+        "excerpt":"Problem: If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name. But who maintains AD to make sure changes propagate to your Global Address List? Solution: PowerShell makes the management of Active Directory very easy using the ActiveDirectory...","categories": ["Scripting"],
+        "tags": [],
+        "url": "/scripting/populate-active-directory-with-isams-pupil-data",
+        "teaser": null
+      },{
+        "title": "Saving Sensitive Data to File with PowerShell",
+        "excerpt":"Problem: You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation. However, this information should rarely be trivially accessible to another user of the computer. Therefore, saving credentials and other secrets in clear text is not advisable. Some...","categories": ["Scripting"],
+        "tags": [],
+        "url": "/scripting/saving-sensitive-data-to-file-with-powershell",
+        "teaser": null
       }]

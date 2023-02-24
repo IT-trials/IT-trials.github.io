@@ -1,0 +1,687 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Populate Active Directory with iSAMS Pupil Data - IT Trials</title>
+<meta name="description" content="Problem: If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make sure changes propagate to your Global Address List?">
+
+
+  <meta name="author" content="Craig Chamberlain">
+  
+  <meta property="article:author" content="Craig Chamberlain">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_GB">
+<meta property="og:site_name" content="IT Trials">
+<meta property="og:title" content="Populate Active Directory with iSAMS Pupil Data">
+<meta property="og:url" content="https://it-trials.craigchamberlain.it/scripting/populate-active-directory-with-isams-pupil-data">
+
+
+  <meta property="og:description" content="Problem: If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make sure changes propagate to your Global Address List?">
+
+
+
+  <meta property="og:image" content="https://it-trials.craigchamberlain.it/assets/images/it-trials.jpg">
+
+
+
+
+
+  <meta property="article:published_time" content="2023-02-24T00:00:00+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="https://it-trials.craigchamberlain.it/scripting/populate-active-directory-with-isams-pupil-data">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Craig Chamberlain",
+      "url": "https://it-trials.craigchamberlain.it/",
+      "sameAs": ["https://twitter.com/hagatorn","https://www.linkedin.com/in/craig-chamberlain-61037149","https://stackoverflow.com/users/3822155/craig-c"]
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="IT Trials Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          IT Trials
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/aws/">AWS</a>
+            </li><li class="masthead__menu-item">
+              <a href="/azure/">Azure</a>
+            </li><li class="masthead__menu-item">
+              <a href="/gpo/">Group Policy</a>
+            </li><li class="masthead__menu-item">
+              <a href="/mdt/">MS Deployment Toolkit</a>
+            </li><li class="masthead__menu-item">
+              <a href="/scripting/">Scripting</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/authors/1.jpg" alt="Craig Chamberlain" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Craig Chamberlain</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Developer</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+        
+          
+            <li><a href="mailto:craig@craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span></a></li>
+          
+        
+          
+            <li><a href="https://craigchamberlain.it" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://twitter.com/hagatorn" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-twitter-square" aria-hidden="true"></i><span class="label">Twitter</span></a></li>
+          
+        
+          
+            <li><a href="https://stackoverflow.com/users/3822155/craig-c" rel="nofollow noopener noreferrer"><i class="fab fa-stack-overflow" aria-hidden="true"></i><span class="label">Stack Overflow</span></a></li>
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/craig-chamberlain-61037149" rel="nofollow noopener noreferrer"><i class="fab fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Populate Active Directory with iSAMS Pupil Data">
+    <meta itemprop="description" content="Problem:If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make sure changes propagate to your Global Address List?">
+    <meta itemprop="datePublished" content="2023-02-24T00:00:00+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Trial #40: Populate Active Directory with iSAMS Pupil Data
+</h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="problem">Problem:</h2>
+<p>If you work at a school using iSAMS, it is probably your trusted data source for pupil info such as preferred name.  But who maintains AD to make sure changes propagate to your <code class="language-plaintext highlighter-rouge">Global Address List</code>?</p>
+
+<h2 id="solution">Solution:</h2>
+<p>PowerShell makes the management of Active Directory very easy using the <a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/" target="_blank">ActiveDirectory</a> Module.</p>
+
+<p>I have published a client and <a href="https://github.com/CraigChamberlain/IsamsBatchApiClient.NET.Core" target="_blank">PowerShell Module</a> the the iSAMS Batch API.</p>
+
+<p>This can be installed from the PowerShell Gallery:</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="n">Install-Module</span><span class="w"> </span><span class="nt">-Name</span><span class="w"> </span><span class="nx">IsamsBatchApi</span></code></pre></figure>
+
+<p>We can use these modules to acquire the data and and make changes to Active Directory.</p>
+
+<h3 id="acquiring-the-pupil-data">Acquiring the Pupil Data</h3>
+<p>The simplest way to get the data is using an API Key</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$pupils</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-IsamsCurrentPupil</span><span class="w"> </span><span class="nt">-ApiKey</span><span class="w"> </span><span class="s2">"0A1C996B-8E74-4388-A3C4-8DA1E30ADA57"</span><span class="w">  </span><span class="nt">-IsamsInstance</span><span class="w"> </span><span class="s2">"https://school.isams.cloud"</span><span class="w">  </span></code></pre></figure>
+
+<p>However, this authentication method will be phased out in the future and you will need to Connect using OATH</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="n">Connect-Isams</span><span class="w"> </span><span class="nt">-ClientID</span><span class="w"> </span><span class="s2">"Your_ID"</span><span class="w"> </span><span class="nt">-ClientSecret</span><span class="w"> </span><span class="s2">"Your_SECRET"</span><span class="w"> </span><span class="nt">-IsamsInstance</span><span class="w"> </span><span class="s2">"https://school.isams.cloud"</span><span class="w"> 
+</span><span class="nv">$pupils</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-IsamsCurrentPupil</span><span class="w"> 
+</span><span class="n">Disconnect-Isams</span></code></pre></figure>
+
+<h3 id="matching-with-active-directory">Matching with Active Directory</h3>
+<p>In our environment, the iSAMS property <code class="language-plaintext highlighter-rouge">SchoolCode</code> matches the AD property <code class="language-plaintext highlighter-rouge">SamAccountName</code> which is also a valid <a href="https://learn.microsoft.com/en-us/powershell/module/activedirectory/get-aduser#-identity" target="_blank"><code class="language-plaintext highlighter-rouge">-Identity</code></a> property of the <code class="language-plaintext highlighter-rouge">Get-ADUser</code>.</p>
+
+<p>Therefore we can iterate over our pupils and attempt to get our AD users like this.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$pupils</span><span class="w"> </span><span class="o">|</span><span class="w"> 
+    </span><span class="n">ForEach-Object</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nv">$user</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-ADUser</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">SchoolCode</span><span class="w"> </span><span class="nt">-Properties</span><span class="w"> </span><span class="nx">EmployeeID</span><span class="p">,</span><span class="w"> </span><span class="nx">EmployeeNumber</span><span class="p">,</span><span class="w"> </span><span class="nx">DisplayName</span><span class="w">
+        </span><span class="c"># Some action</span><span class="w">
+    </span><span class="p">}</span></code></pre></figure>
+
+<p>However, the iSAMS property <code class="language-plaintext highlighter-rouge">SchoolCode</code> is not a perfect primary key - there is no guarantee of uniqueness and it might change throughout a pupils school career.  Therefore, I prefer to use the iSAMS properties <code class="language-plaintext highlighter-rouge">Id</code> and <code class="language-plaintext highlighter-rouge">SchoolId</code> which I write into the AD properties <code class="language-plaintext highlighter-rouge">EmployeeID</code> and <code class="language-plaintext highlighter-rouge">EmployeeNumber</code>.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="n">Set-ADUser</span><span class="w"> </span><span class="nv">$user</span><span class="w"> </span><span class="nt">-EmployeeID</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">Id</span><span class="w"> </span><span class="nt">-Confirm</span><span class="w">
+</span><span class="n">Set-ADUser</span><span class="w"> </span><span class="nv">$user</span><span class="w"> </span><span class="nt">-EmployeeNumber</span><span class="w"> </span><span class="bp">$_</span><span class="o">.</span><span class="nf">SchoolId</span><span class="w"> </span><span class="nt">-Confirm</span><span class="w">  </span></code></pre></figure>
+
+<h3 id="example-script">Example Script</h3>
+<p>You may be able to use the following script as a starting point for your own environment.</p>
+
+<p>I store restricted information in a config file using a method I describe in <a href="/scripting/saving-sensitive-data-to-file-with-powershell">my next post</a></p>
+
+<p>The following will persist details with at least some obfuscation to file.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="p">@{</span><span class="w">
+    </span><span class="nx">BatchAPI</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+        </span><span class="nx">Host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Read</span><span class="err">-</span><span class="nx">Host</span><span class="w"> </span><span class="err">-</span><span class="nx">Prompt</span><span class="w"> </span><span class="s2">"Input your iSAMS instance e.g. https://school.isams.cloud"</span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertTo</span><span class="err">-</span><span class="nx">SecureString</span><span class="w"> </span><span class="err">-</span><span class="nx">AsPlainText</span><span class="w"> </span><span class="err">-</span><span class="nx">Force</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+        </span><span class="nx">ClientID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Read</span><span class="err">-</span><span class="nx">Host</span><span class="w"> </span><span class="err">-</span><span class="nx">AsSecureString</span><span class="w"> </span><span class="err">-</span><span class="nx">Prompt</span><span class="w"> </span><span class="s2">"Input your Client ID e.g. 6283d2d5-2518-4999-9db0-cc5c81750069"</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+        </span><span class="nx">ClientSecret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Read</span><span class="err">-</span><span class="nx">Host</span><span class="w"> </span><span class="err">-</span><span class="nx">AsSecureString</span><span class="w"> </span><span class="err">-</span><span class="nx">Prompt</span><span class="w"> </span><span class="s2">"Input your Client Secret e.g. 69bd76b9-00ca-44d7-8e86-72368c33c33f"</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="nx">ActiveDirectory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">@{</span><span class="w">
+        </span><span class="nx">PupilSearchBase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Read</span><span class="err">-</span><span class="nx">Host</span><span class="w"> </span><span class="err">-</span><span class="nx">Prompt</span><span class="w"> </span><span class="s2">"Input the OU you pupils are stored in e.g. OU=Pupils,DC=domain,DC=local"</span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertTo</span><span class="err">-</span><span class="nx">SecureString</span><span class="w"> </span><span class="err">-</span><span class="nx">AsPlainText</span><span class="w"> </span><span class="err">-</span><span class="nx">Force</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+        </span><span class="nx">StaffSearchBase</span><span class="o">=</span><span class="w"> </span><span class="nx">Read</span><span class="err">-</span><span class="nx">Host</span><span class="w"> </span><span class="err">-</span><span class="nx">Prompt</span><span class="w"> </span><span class="s2">"Input the OU you staff are stored in e.g. OU=Staff,DC=domain,DC=local"</span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertTo</span><span class="err">-</span><span class="nx">SecureString</span><span class="w"> </span><span class="err">-</span><span class="nx">AsPlainText</span><span class="w"> </span><span class="err">-</span><span class="nx">Force</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w"> 
+    </span><span class="n">ConvertTo-Json</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="nx">config.json</span></code></pre></figure>
+
+<p>The following script loads this information so it need not be input manually every time it is run.  It will prompt for user confirmation when a new match between AD and iSAMS is found before writing the iSAMS primary key to the AD user.  AD Users with a matching iSAMS ID will have other properties updated to match iSAMS as required.  Furthermore, a set of pupils that may need to be created in AD are collected in the variable <code class="language-plaintext highlighter-rouge">$isamsUsersToCreate</code>.</p>
+
+<noscript><pre>400: Invalid request</pre></noscript>
+<script src="https://gist.github.com/d70a2804f20abe8ca2a96654d2d587c6.js"> </script>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Populate+Active+Directory+with+iSAMS+Pupil+Data%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fpopulate-active-directory-with-isams-pupil-data" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fpopulate-active-directory-with-isams-pupil-data" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fpopulate-active-directory-with-isams-pupil-data" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/scripting/making-class-teams-with-the-microsoftteams-powershell-module" class="pagination--pager" title="Making Class Teams with the MicrosoftTeams PowerShell Module
+">Previous</a>
+    
+    
+      <a href="/scripting/saving-sensitive-data-to-file-with-powershell" class="pagination--pager" title="Saving Sensitive Data to File with PowerShell
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/saving-sensitive-data-to-file-with-powershell" rel="permalink">Trial #41: Saving Sensitive Data to File with PowerShell
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information ...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/making-class-teams-with-the-microsoftteams-powershell-module" rel="permalink">Trial #39: Making Class Teams with the MicrosoftTeams PowerShell Module
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+We have c. 500 different sets, each with at least one teacher and many pupils.  This information is all available from our MIS but how can we automa...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-midyis-grade-exports" rel="permalink">Trial #38: Parsing and Transforming MidYIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline MidYIS scores into our MIS and other custom reporting tools.  At times this i...</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-alis-grade-exports" rel="permalink">Trial #37: Parsing and Transforming ALIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools.  At times this inf...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 IT Trials. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "https://it-trials.craigchamberlain.it/scripting/populate-active-directory-with-isams-pupil-data";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/scripting/populate-active-directory-with-isams-pupil-data"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://ittrials.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

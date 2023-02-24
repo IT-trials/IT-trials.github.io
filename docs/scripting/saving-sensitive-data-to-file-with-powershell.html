@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Why is Write-Verbose not Doing Anything? - IT Trials</title>
-<meta name="description" content="Problem: I made a script with some functions in it and the built in PowerShell verbose switch is doing absolutely nothing.      ./MyScript.ps1 -verbose #I&#39;m having to revert to write host to have a clue what is happening!  Solution: Give PowerShell a chance - it’s made it pretty easy for you - just put cmdletbinding attribute above your parameters in any given script.      [cmdletbinding()]     param()">
+<!-- begin _includes/seo.html --><title>Saving Sensitive Data to File with PowerShell - IT Trials</title>
+<meta name="description" content="Problem: You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information should rarely be trivially accessible to another user of the computer.  Therefore, saving credentials and other secrets in clear text is not advisable. Some form of encryption or at least obfuscation is advisable.">
 
 
   <meta name="author" content="Craig Chamberlain">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_GB">
 <meta property="og:site_name" content="IT Trials">
-<meta property="og:title" content="Why is Write-Verbose not Doing Anything?">
-<meta property="og:url" content="https://it-trials.craigchamberlain.it/scripting/why-is-write-verbose-doing-nothing">
+<meta property="og:title" content="Saving Sensitive Data to File with PowerShell">
+<meta property="og:url" content="https://it-trials.craigchamberlain.it/scripting/saving-sensitive-data-to-file-with-powershell">
 
 
-  <meta property="og:description" content="Problem: I made a script with some functions in it and the built in PowerShell verbose switch is doing absolutely nothing.      ./MyScript.ps1 -verbose #I&#39;m having to revert to write host to have a clue what is happening!  Solution: Give PowerShell a chance - it’s made it pretty easy for you - just put cmdletbinding attribute above your parameters in any given script.      [cmdletbinding()]     param()">
+  <meta property="og:description" content="Problem: You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information should rarely be trivially accessible to another user of the computer.  Therefore, saving credentials and other secrets in clear text is not advisable. Some form of encryption or at least obfuscation is advisable.">
 
 
 
@@ -36,14 +36,14 @@
 
 
 
-  <meta property="article:published_time" content="2017-03-16T00:00:00+00:00">
+  <meta property="article:published_time" content="2023-02-24T00:00:00+00:00">
 
 
 
 
 
 
-<link rel="canonical" href="https://it-trials.craigchamberlain.it/scripting/why-is-write-verbose-doing-nothing">
+<link rel="canonical" href="https://it-trials.craigchamberlain.it/scripting/saving-sensitive-data-to-file-with-powershell">
 
 
 
@@ -269,15 +269,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Why is Write-Verbose not Doing Anything?">
-    <meta itemprop="description" content="Problem:I made a script with some functions in it and the built in PowerShell verbose switch is doing absolutely nothing.    ./MyScript.ps1 -verbose #I&#39;m having to revert to write host to have a clue what is happening!Solution:Give PowerShell a chance - it’s made it pretty easy for you - just put cmdletbinding attribute above your parameters in any given script.    [cmdletbinding()]    param()">
-    <meta itemprop="datePublished" content="2017-03-16T00:00:00+00:00">
+    <meta itemprop="headline" content="Saving Sensitive Data to File with PowerShell">
+    <meta itemprop="description" content="Problem:You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information should rarely be trivially accessible to another user of the computer.  Therefore, saving credentials and other secrets in clear text is not advisable. Some form of encryption or at least obfuscation is advisable.">
+    <meta itemprop="datePublished" content="2023-02-24T00:00:00+00:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">Trial #13: Why is Write-Verbose not Doing Anything?
+          <h1 id="page-title" class="page__title" itemprop="headline">Trial #41: Saving Sensitive Data to File with PowerShell
 </h1>
           
 
@@ -287,7 +287,7 @@
       <span class="page__meta-date">
         <i class="far fa-calendar-alt" aria-hidden="true"></i>
         
-        <time datetime="2017-03-16T00:00:00+00:00">March 16, 2017</time>
+        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
       </span>
     
 
@@ -300,7 +300,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -313,41 +313,46 @@
       <section class="page__content" itemprop="text">
         
         <h2 id="problem">Problem:</h2>
-<p>I made a script with some functions in it and the built in PowerShell verbose switch is doing absolutely nothing.</p>
-
-<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="w">    </span><span class="o">.</span><span class="n">/MyScript.ps1</span><span class="w"> </span><span class="nt">-verbose</span><span class="w"> </span><span class="c">#I'm having to revert to write host to have a clue what is happening!</span></code></pre></figure>
+<p>You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information should rarely be trivially accessible to another user of the computer.  Therefore, saving credentials and other secrets in clear text is not advisable. Some form of encryption or at least obfuscation is advisable.</p>
 
 <h2 id="solution">Solution:</h2>
-<p>Give PowerShell a chance - it’s made it pretty easy for you - just put cmdletbinding attribute above your parameters in any given script.</p>
+<p>.NET and PowerShell has a Class called <a href="https://learn.microsoft.com/en-us/dotnet/api/system.security.securestring" target="_blank"><code class="language-plaintext highlighter-rouge">SecureString</code></a> that can be a safer way to hold sensitive data in memory than a simple <code class="language-plaintext highlighter-rouge">System</code> <code class="language-plaintext highlighter-rouge">String</code>.  Although <a href="https://github.com/dotnet/platform-compat/blob/master/docs/DE0001.md" target="_blank">this is not to be considered completely safe, particularly on non-Windows systems</a>, I am unaware of a better, easily supported way of getting at least some protection in PowerShell.  I’d love to hear about more rock solid options in a comment and I will post an additional article.  Use this method if your alternative is storing in clear text, as the cost is low enough to be considered free.  If your working with state secrets this is certainly not the final word.</p>
 
-<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="w">    </span><span class="p">[</span><span class="n">cmdletbinding</span><span class="p">()]</span><span class="w">
-    </span><span class="kr">param</span><span class="p">()</span></code></pre></figure>
+<h3 id="acquire-your-securestring">Acquire your SecureString</h3>
 
-<p>Powershell will then give you some free <a href="https://msdn.microsoft.com/en-us/powershell/reference/3.0/microsoft.powershell.core/about/about_commonparameters" target="_blank">common parameters</a> including -verbose.</p>
+<p>One way to acquire a [<code class="language-plaintext highlighter-rouge">SecureString</code>] is from the host.</p>
 
-<ul>
-  <li>Debug (db)</li>
-  <li>ErrorAction (ea)</li>
-  <li>ErrorVariable (ev)</li>
-  <li>InformationAction</li>
-  <li>InformationVariable</li>
-  <li>OutVariable (ov)</li>
-  <li>OutBuffer (ob)</li>
-  <li>PipelineVariable (pv)</li>
-  <li>Verbose (vb)</li>
-  <li>WarningAction (wa)</li>
-  <li>WarningVariable (wv)</li>
-</ul>
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$secureString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Read-Host</span><span class="w"> </span><span class="nt">-AsSecureString</span></code></pre></figure>
 
-<p>Thanks to Ed Wilson, Microsoft Scripting Guy, for providing a solution to my problem and leading me into this interesting topic in <a href="https://blogs.technet.microsoft.com/heyscriptingguy/2014/07/30/use-powershell-to-write-verbose-output/" target="_blank">his post</a>.</p>
+<p>You can also convert a standard string from some other input.</p>
 
-<p>There is a lot more you can do with the <a href="https://msdn.microsoft.com/powershell/reference/5.1/Microsoft.PowerShell.Core/about/about_Functions_CmdletBindingAttribute" target="_blank">Parameter Binding Attribute</a></p>
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$secureString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Secret"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertTo-SecureString</span><span class="w"> </span><span class="nt">-AsPlainText</span></code></pre></figure>
 
-<h2 id="pitfalls">Pitfalls</h2>
+<h3 id="persisting-your-securestring">Persisting your SecureString</h3>
+<p>PowerShell has the <a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/convertfrom-securestring" target="_blank"><code class="language-plaintext highlighter-rouge">ConvertFrom-SecureString</code></a>  Cmdlet.</p>
 
-<ul>
-  <li>This is just a rare good thing</li>
-</ul>
+<blockquote>
+  <p>The ConvertFrom-SecureString cmdlet converts a secure string (<code class="language-plaintext highlighter-rouge">System.Security.SecureString</code>) into an encrypted standard string (<code class="language-plaintext highlighter-rouge">System.String</code>). Unlike a secure string, an encrypted standard string can be saved in a file for later use.<br />
+– <cite><a href="https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/convertfrom-securestring?view=powershell-7.3#description" target="_blank">ConvertFrom-SecureString</a> </cite></p>
+</blockquote>
+
+<p>This is an essential step to serialise our SecureString prior to persisting to a text file.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$secureString</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertFrom-SecureString</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="nx">secret.txt</span></code></pre></figure>
+
+<p>Or even a json structure.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="p">@{</span><span class="w">
+    </span><span class="nx">Secret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$secureString</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="nx">ConvertFrom</span><span class="err">-</span><span class="nx">SecureString</span><span class="w">
+</span><span class="p">}</span><span class="w"> </span><span class="o">|</span><span class="w">
+   </span><span class="n">ConvertTo-Json</span><span class="w"> </span><span class="err">&gt;</span><span class="w"> </span><span class="nx">secret.json</span></code></pre></figure>
+
+<h3 id="importing-your-securestring">Importing your SecureString</h3>
+<p>When you read your secure string back from file, it is in the form of an encrypted <code class="language-plaintext highlighter-rouge">String</code>, this will almost always need to be converted back to a <code class="language-plaintext highlighter-rouge">SecureString</code> and ultimately a clear text <code class="language-plaintext highlighter-rouge">String</code>.</p>
+
+<figure class="highlight"><pre><code class="language-posh" data-lang="posh"><span class="nv">$encryptedString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Get-Contents</span><span class="w"> </span><span class="nx">secret.txt</span><span class="w"> </span><span class="nt">-Raw</span><span class="w">
+</span><span class="nv">$secureString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$encryptedString</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertTo-SecureString</span><span class="w">
+</span><span class="nv">$clearTextString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$secureString</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">ConvertFrom-SecureString</span><span class="w"> </span><span class="nt">-AsPlainText</span></code></pre></figure>
 
         
       </section>
@@ -359,7 +364,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2017-03-16T00:00:00+00:00">March 16, 2017</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time></p>
 
 
       </footer>
@@ -369,23 +374,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=Why+is+Write-Verbose+not+Doing+Anything%3F%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fwhy-is-write-verbose-doing-nothing" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Saving+Sensitive+Data+to+File+with+PowerShell%20https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fsaving-sensitive-data-to-file-with-powershell" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fwhy-is-write-verbose-doing-nothing" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fsaving-sensitive-data-to-file-with-powershell" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fwhy-is-write-verbose-doing-nothing" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fit-trials.craigchamberlain.it%2Fscripting%2Fsaving-sensitive-data-to-file-with-powershell" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/scripting/enable-wake-on-lan-on-windows-clients" class="pagination--pager" title="Enable Wake on a Windows Client
+      <a href="/scripting/populate-active-directory-with-isams-pupil-data" class="pagination--pager" title="Populate Active Directory with iSAMS Pupil Data
 ">Previous</a>
     
     
-      <a href="/scripting/netsh-for-windows-network-problems" class="pagination--pager" title="Netsh for Windows Network Problems
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -399,53 +403,6 @@
     <div class="page__related">
       <h4 class="page__related-title">You may also enjoy</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/scripting/saving-sensitive-data-to-file-with-powershell" rel="permalink">Trial #41: Saving Sensitive Data to File with PowerShell
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-      
-      <span class="page__meta-date">
-        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
-        
-        <time datetime="2023-02-24T00:00:00+00:00">February 24, 2023</time>
-      </span>
-    
-
-    <span class="page__meta-sep"></span>
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Problem:
-You may want to store credentials on a computer for later use, either to save repeated entry or to allow for automation.  However, this information ...</p>
-  </article>
-</div>
-
         
           
 
@@ -588,6 +545,53 @@ At the school at which I work, we had no way of importing our baseline MidYIS sc
 </div>
 
         
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/scripting/parsing-alis-grade-exports" rel="permalink">Trial #37: Parsing and Transforming ALIS grade export data
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2022-11-21T00:00:00+00:00">November 21, 2022</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Problem:
+At the school at which I work, we had no way of importing our baseline ALIS scores into our MIS and other custom reporting tools.  At times this inf...</p>
+  </article>
+</div>
+
+        
       </div>
     </div>
   
@@ -634,8 +638,8 @@ At the school at which I work, we had no way of importing our baseline MidYIS sc
     
   <script>
     var disqus_config = function () {
-      this.page.url = "https://it-trials.craigchamberlain.it/scripting/why-is-write-verbose-doing-nothing";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/scripting/why-is-write-verbose-doing-nothing"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "https://it-trials.craigchamberlain.it/scripting/saving-sensitive-data-to-file-with-powershell";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/scripting/saving-sensitive-data-to-file-with-powershell"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');
