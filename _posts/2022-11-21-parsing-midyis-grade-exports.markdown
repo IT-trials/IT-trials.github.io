@@ -6,7 +6,7 @@ published: true
 ---
 
 ## Problem:
-At the school at which I work, we had no way of importing our baseline [MidYIS](https://www.cem.org/midyis) scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a [partner article on the ALIS baseline system](/scripting/parsing-alis-grade-exports).
+At the school at which I work, we had no way of importing our baseline [MidYIS](https://www.cem.org/midyis){:target="_blank"} scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a [partner article on the ALIS baseline system](/scripting/parsing-alis-grade-exports){:target="_blank"}.
 
 ## Solution:
 I will add an appendix with [instructions on how I acquired the data](#data-acquisition) but will dive straight into the implementation of how I chose to parse and transform 
@@ -135,7 +135,7 @@ If I cover this in another article I shall post a link here.
 
 <h2 id="data-acquisition">Acquire Data from CEM</h2>
 
-Head over to _Cambridge University Press_ & _Assessment's Centre for Evaluation Monitoring_ and log into the [MidYIS](https://css.cemcentre.org/SecondaryPlusNet/Login.aspx) portal using your school's credentials.
+Head over to _Cambridge University Press_ & _Assessment's Centre for Evaluation Monitoring_ and log into the [MidYIS](https://css.cemcentre.org/SecondaryPlusNet/Login.aspx){:target="_blank"} portal using your school's credentials.
 
 Drill down into the __Reports -> Data and Reports__ page
 

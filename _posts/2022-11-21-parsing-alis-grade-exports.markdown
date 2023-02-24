@@ -5,12 +5,12 @@ number: 37
 published: true
 ---
 ## Problem:
-At the school at which I work, we had no way of importing our baseline [ALIS](https://www.cem.org/ALIS) scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a [partner article on the MidYIS baseline system](/scripting/parsing-midyis-grade-exports).
+At the school at which I work, we had no way of importing our baseline [ALIS](https://www.cem.org/ALIS){:target="_blank"} scores into our MIS and other custom reporting tools.  At times this information was simply input by hand into forms in the MIS.  I decided to work out how to parse exports so that this was not necessary.  I have a [partner article on the MidYIS baseline system](/scripting/parsing-midyis-grade-exports){:target="_blank"}.
 
 ## Solution:
 I will add an appendix with [instructions on how I acquired the data](#data-acquisition) but will dive straight into the implementation of how I chose to parse and transform 
 
-Once you have your file, open and save as xlsx.  The OpenOfficeSDK used in the [ImportExcel module](https://www.powershellgallery.com/packages/ImportExcel) cannot open xls files.  You may need to install the module
+Once you have your file, open and save as xlsx.  The OpenOfficeSDK used in the [ImportExcel module](https://www.powershellgallery.com/packages/ImportExcel){:target="_blank"} cannot open xls files.  You may need to install the module
 
 {% highlight posh %}
 Install-Module -Name ImportExcel 
@@ -51,7 +51,7 @@ You may now export this or process further to match your pupils to another syste
 
 <h2 id="data-acquisition">Acquire Data from CEM</h2>
 
-Head over to _Cambridge University Press_ & _Assessment's Centre for Evaluation Monitoring_ and log into the [Alis](https://css.cemcentre.org/ALIS/Site/LoginTemplate.aspx) portal using your school's credentials.
+Head over to _Cambridge University Press_ & _Assessment's Centre for Evaluation Monitoring_ and log into the [Alis](https://css.cemcentre.org/ALIS/Site/LoginTemplate.aspx){:target="_blank"} portal using your school's credentials.
 
 Drill down into the __Reports -> Predictive Data__ page
 <figure>
