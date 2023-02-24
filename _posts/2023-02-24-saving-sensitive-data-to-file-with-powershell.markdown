@@ -1,6 +1,6 @@
 ---
 title: Saving Sensitive Data to File with PowerShell
-number: 39
+number: 41
 categories: Scripting
 published: true
 ---
@@ -10,9 +10,7 @@ You may want to store credentials on a computer for later use, either to save re
 
 
 ## Solution:
-.NET and PowerShell has a Class called [````SecureString````](https://learn.microsoft.com/en-us/dotnet/api/system.security.securestring){:target="_blank"}  that can be a safer way to hold sensitive data in memory than a simple System.String.  However, it should be noted that [this is not to be considered safe, particularly on non-Windows systems](https://github.com/dotnet/platform-compat/blob/master/docs/DE0001.md){:target="_blank"} .
-
-
+.NET and PowerShell has a Class called [````SecureString````](https://learn.microsoft.com/en-us/dotnet/api/system.security.securestring){:target="_blank"} that can be a safer way to hold sensitive data in memory than a simple ````System```` ````String````.  Although [this is not to be considered completely safe, particularly on non-Windows systems](https://github.com/dotnet/platform-compat/blob/master/docs/DE0001.md){:target="_blank"}, I am unaware of a better, easily supported way of getting at least some protection in PowerShell.  I'd love to hear about more rock solid options in a comment and I will post an additional article.  Use this method if your alternative is storing in clear text, as the cost is low enough to be considered free.  If your working with state secrets this is certainly not the final word.
 
 ### Acquire your SecureString
 
@@ -35,7 +33,7 @@ PowerShell has the [````ConvertFrom-SecureString````](https://learn.microsoft.co
 > The ConvertFrom-SecureString cmdlet converts a secure string (````System.Security.SecureString````) into an encrypted standard string (````System.String````). Unlike a secure string, an encrypted standard string can be saved in a file for later use.  
 > -- <cite>[ConvertFrom-SecureString](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/convertfrom-securestring?view=powershell-7.3#description){:target="_blank"} </cite>
 
-This is an important essential step to serialise our SecureString prior to persisting to a text file.
+This is an essential step to serialise our SecureString prior to persisting to a text file.
 
 {% highlight posh %}
 $secureString | ConvertFrom-SecureString > secret.txt
