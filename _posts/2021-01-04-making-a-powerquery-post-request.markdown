@@ -1,7 +1,7 @@
 ---
 title: Making a PowerQuery (M) Http POST Request
 number: 36
-categories: powerbi
+categories: PowerBI
 published: true
 ---
 
