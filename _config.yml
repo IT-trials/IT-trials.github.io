@@ -15,6 +15,10 @@ exclude: [Gemfile, Gemfile.lock, README.md, redirect.ps1, docs, build.sh, dev.sh
 # Build settings
 markdown: kramdown
 
+search: true
+lunr:
+  search_within_pages: true
+
 sass:
   style: compressed
 
