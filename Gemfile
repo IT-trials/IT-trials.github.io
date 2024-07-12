@@ -1,12 +1,8 @@
 source 'https://rubygems.org'
-gem 'jekyll'
-gem "minimal-mistakes-jekyll"
+
+gem "github-pages", group: :jekyll_plugins
+gem "jekyll-include-cache", group: :jekyll_plugins
+gem "jekyll-redirect-from", group: :jekyll_plugins
 
 
-group :jekyll_plugins do
-gem "kramdown-parser-gfm"
-gem "jekyll-redirect-from"
-gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-gem 'faraday-retry'
-end
-
+gem 'webrick'

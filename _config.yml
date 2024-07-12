@@ -18,10 +18,11 @@ markdown: kramdown
 sass:
   style: compressed
 
-theme: minimal-mistakes-jekyll
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
 
 plugins:   
   - jekyll-redirect-from
+  - jekyll-include-cach
 
 minimal_mistakes_skin: "dark"
 
