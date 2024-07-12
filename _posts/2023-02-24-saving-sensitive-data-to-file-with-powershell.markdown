@@ -10,6 +10,10 @@ You may want to store credentials on a computer for later use, either to save re
 
 
 ## Solution:
+
+### 2024 Update
+I would now recommend using a SecureStore instead of saving to a file.  Please read me next post: [Trial#42 - Saving Sensitive Data to SecureStore with PowerShell](/scripting/saving-sensitive-data-to-securestore-with-powershell).
+
 .NET and PowerShell has a Class called [````SecureString````](https://learn.microsoft.com/en-us/dotnet/api/system.security.securestring){:target="_blank"} that can be a safer way to hold sensitive data in memory than a simple ````System```` ````String````.  Although [this is not to be considered completely safe, particularly on non-Windows systems](https://github.com/dotnet/platform-compat/blob/master/docs/DE0001.md){:target="_blank"}, I am unaware of a better, easily supported way of getting at least some protection in PowerShell.  I'd love to hear about more rock solid options in a comment and I will post an additional article.  Use this method if your alternative is storing in clear text, as the cost is low enough to be considered free.  If your working with state secrets this is certainly not the final word.
 
 ### Acquire your SecureString
