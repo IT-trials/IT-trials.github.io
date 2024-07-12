@@ -26,7 +26,7 @@ remote_theme: "mmistakes/minimal-mistakes@4.26.2"
 
 plugins:   
   - jekyll-redirect-from
-  - jekyll-include-cach
+  - jekyll-include-cache
 
 minimal_mistakes_skin: "dark"
 
