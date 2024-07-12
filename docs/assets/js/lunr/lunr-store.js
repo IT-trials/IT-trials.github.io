@@ -210,7 +210,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Making a PowerQuery (M) Http POST Request",
-        "excerpt":"Problem: PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI. I talked about this process briefly in a previous blog. However, some REST or other data APIs require a POST request for example a request with...","categories": ["powerbi"],
+        "excerpt":"Problem: PowerBi makes it very easy for you to make http GET requests, which can sometimes be done simply from navigating through a GUI. I talked about this process briefly in a previous blog. However, some REST or other data APIs require a POST request for example a request with...","categories": ["PowerBI"],
         "tags": [],
         "url": "/powerbi/making-a-powerquery-post-request",
         "teaser": null

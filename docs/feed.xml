@@ -6,8 +6,8 @@
 </description>
     <link>https://it-trials.craigchamberlain.it/</link>
     <atom:link href="https://it-trials.craigchamberlain.it/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 24 Feb 2023 14:55:34 +0000</pubDate>
-    <lastBuildDate>Fri, 24 Feb 2023 14:55:34 +0000</lastBuildDate>
+    <pubDate>Fri, 12 Jul 2024 14:03:03 +0100</pubDate>
+    <lastBuildDate>Fri, 12 Jul 2024 14:03:03 +0100</lastBuildDate>
     <generator>Jekyll v4.3.1</generator>
     
       <item>
@@ -517,7 +517,7 @@ in GetReports&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
         <guid isPermaLink="true">https://it-trials.craigchamberlain.it/powerbi/making-a-powerquery-post-request</guid>
         
         
-        <category>powerbi</category>
+        <category>PowerBI</category>
         
       </item>
     
@@ -774,7 +774,7 @@ Table.AddColumn(table1, &quot;DecodedUAC&quot;, each DecodeUserAccountControl(_[
 &lt;figure&gt;
 	&lt;img src=&quot;/assets/images/33/choose-delimiter.jpg&quot; /&gt;
 	&lt;figcaption&gt;
-	Choose a delimiter that is unlikely to occur in any of your group names, such as ';'
+	Choose a delimiter that is unlikely to occur in any of your group names, such as &apos;;&apos;
 	&lt;/figcaption&gt;
 &lt;/figure&gt;
 
@@ -844,7 +844,7 @@ Table.AddColumn(table1, &quot;DecodedUAC&quot;, each DecodeUserAccountControl(_[
 &lt;figure&gt;
 	&lt;img src=&quot;/assets/images/32/ou-table.jpg&quot; /&gt;
 	&lt;figcaption&gt;
-	Selecting the organizationalUnit table from your domain's ActiveDirectory
+	Selecting the organizationalUnit table from your domain&apos;s ActiveDirectory
 	&lt;/figcaption&gt;
 &lt;/figure&gt;
 
