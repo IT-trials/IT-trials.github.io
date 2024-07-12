@@ -10,4 +10,6 @@ main:
       url: /mdt/
     - title: "Scripting"
       url: /scripting/
+    - title: "PowerBI"
+      url: /PowerBI/
 
